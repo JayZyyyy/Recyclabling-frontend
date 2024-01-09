@@ -19,6 +19,8 @@
           </span>
           <template #dropdown>
             <el-dropdown-menu>
+              <el-dropdown-item v-if="userStore.isAdmin" @click="toUserView">管理页面</el-dropdown-item>
+              <el-dropdown-item v-else @click="toUserView">个人主页</el-dropdown-item>
               <el-dropdown-item>Action 1</el-dropdown-item>
               <el-dropdown-item>Action 2</el-dropdown-item>
               <el-dropdown-item>Action 3</el-dropdown-item>
@@ -48,6 +50,10 @@ const userStore = useUserStore();
 const logIn = () => {
   router.push("/login");
 };
+
+const toUserView = () => {
+  router.push(`/user/${userStore.id}`);
+}
 
 const logout = () => {
   userStore.resetData();

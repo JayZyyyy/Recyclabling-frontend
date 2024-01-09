@@ -5,7 +5,8 @@ export const useUserStore = defineStore('user', {
     return {
       id: '',
       name: '',
-      token: ''
+      token: '',
+      isAdmin: 0
     }
   },
   getters: {},
@@ -14,11 +15,13 @@ export const useUserStore = defineStore('user', {
       this.id = data.id
       this.name = data.name
       this.token = data.token
+      this.isAdmin = data?.admin
     },
     resetData() {
       this.id = ''
       this.name = ''
       this.token = ''
+      this.isAdmin = 0
     }
   },
   persist: {

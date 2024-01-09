@@ -3,7 +3,7 @@ const errorTypes = require('../constants/error-types')
 const userService = require('../service/user.service')
 const authService = require('../service/auth.service')
 const md5password = require('../utils/password-handle')
-// const { PUBLIC_KEY } = require('../app/config')
+const { PUBLIC_KEY } = require('../app/config')
 
 const verifyLogin = async (ctx, next) => {
 
@@ -45,7 +45,6 @@ const verifyLogin = async (ctx, next) => {
 const verifyAuth = async (ctx, next) => {
   // 1. 授权获取的token
   const authorization = ctx.headers.authorization
-  // console.log(authorization)
   if (!authorization) {
     const error = new Error(errorTypes.UNAUTHORIZATION)
     ctx.app.emit('error', error, ctx)
@@ -61,6 +60,7 @@ const verifyAuth = async (ctx, next) => {
     await next()
   } catch (err) {
     const error = new Error(errorTypes.UNAUTHORIZATION)
+    console.log(err)
     ctx.app.emit('error', error, ctx)
   }
 }

@@ -5,10 +5,21 @@
       <span class="sub-info">来了解一下吧！</span>
     </div>
     <div class="list">
-      <ShowBox></ShowBox>
+      <ShowBox :recycleList="recycleList"></ShowBox>
     </div>
   </div>
 </template>
+
+<script setup>
+import { onMounted, ref } from "vue";
+import { getRecycleList } from '../../api/index'
+
+const recycleList = ref({})
+
+onMounted(async () => {
+  recycleList.value = await getRecycleList()
+})
+</script>
 
 <style lang="less" scoped>
 .show-list {

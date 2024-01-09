@@ -2,7 +2,7 @@
   <div class="show-item">
     <div class="pic">
       <a href="#">
-        <img src="../../assets/fm2.png" />
+        <img :src="src" />
         <div class="mask">
           <h3>
             查看详情
@@ -15,6 +15,15 @@
   </div>
 </template>
 
+<script setup>
+import { defineProps } from 'vue'
+const props = defineProps({
+  src: {
+    type: String
+  }
+})
+</script>
+
 <style lang="less" scoped>
 .show-item {
   flex-basis: 23%;
@@ -22,11 +31,14 @@
 
   .pic {
     width: 100%;
+    height: 100%;
+
     position: relative;
     overflow: hidden;
 
     img {
       width: 100%;
+      height: 100%;
     }
 
     a:hover {

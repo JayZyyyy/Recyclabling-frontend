@@ -27,7 +27,7 @@ import { useUserStore } from "../store/user";
 
 const userStore = useUserStore()
 onMounted(() => {
-  console.log(userStore.token)
+  console.log(userStore.isAdmin)
 })
 
 </script>
