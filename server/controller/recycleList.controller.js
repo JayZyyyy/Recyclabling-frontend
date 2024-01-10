@@ -24,6 +24,20 @@ class RecycleListController {
     ctx.response.set('content-type', fileInfo.mimetype)
     ctx.body = fs.createReadStream(`${PICTURE_PATH}/${filename}`) 
   }
+
+  async saveInfo(ctx, next) {
+    // 1.获取图像信息
+    const files = ctx.req.files
+    const {name, introduce} = ctx.req.body
+
+    // 2.将所有的文件信息保存到数据库中
+    for (let file of files) {
+      const { filename, mimetype, size } = file
+      await recycleListService.createRecycleItem(name, introduce, filename, mimetype, size)
+    }
+
+    ctx.body = '上传成功~'
+  }
 }
 
 module.exports = new RecycleListController()

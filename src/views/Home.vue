@@ -38,9 +38,11 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  // background: #f7f7f7;
 
   .top {
     width: 100%;
+
   }
 
   .container {
@@ -52,12 +54,14 @@ onMounted(() => {
       display: flex;
       justify-content: space-around;
       height: 60vh;
+          background: white;
     }
 
     .main {
       width: 65%;
       margin: auto;
-      margin-top: 30px;
+      padding-top: 30px;
+      background: white;
     }
   }
 }

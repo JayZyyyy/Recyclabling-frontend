@@ -25,12 +25,13 @@
 </template>
 
 <script setup>
-import { reactive, ref,defineEmits } from "vue";
+import { reactive, ref } from "vue";
 import { User, Lock } from "@element-plus/icons-vue";
 import { login } from '../../api/index'
 import { ElMessage } from "element-plus";
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../../store/user'
+import { useLoginStore } from '../../store/login'
 
 const formData = reactive({
   name: "",
@@ -51,10 +52,9 @@ const loginFunc = async () => {
   })
   
 }
-
-const emit = defineEmits(['changeToRegister'])
+const loginStore = useLoginStore()
 const changeToRegister = () => {
-  emit('changeToRegister', false)
+  loginStore.isLogin = false
 }
 </script>
 

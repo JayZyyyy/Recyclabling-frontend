@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory} from 'vue-router'
 const Home = ()=> import('../views/Home.vue')
-
+const UserHome = import('../views/UserChild/Home.vue')
 
 const routes = [
   { 
@@ -22,10 +22,16 @@ const routes = [
     path: '/user/:id',
     name: 'user',
     component: ()=> import('../views/User.vue'),
+    redirect: { name: 'userHome' },
     children: [
       {
+        path: '/',
+        component: UserHome,
+      },
+      {
         path: 'home',
-        component: () => import('../views/UserChild/Home.vue'),
+        name: 'userHome',
+        component: UserHome,
       },
       {
         path: 'recycleList',

@@ -46,3 +46,15 @@ export const uploadImage = (userData) => {
   })
 }
 
+export const uploadRecycleItem = ({name, introduce, fileList}) => {
+  let formData = new FormData();
+  formData.append("picture", fileList[0].raw); 
+  formData.append("name", name); 
+  formData.append("introduce", introduce); 
+  return axios.post('/api/recycleList/upload', formData,{
+    headers: 'multipart/form-data'
+  }).then(response => {
+      return response?.data
+  })
+}
+

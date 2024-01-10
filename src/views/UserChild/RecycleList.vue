@@ -20,80 +20,130 @@
       </div>
       <div class="search-button">
         <el-button type="primary" plain size="large"> 搜索 </el-button>
-        <!-- <el-upload
-          v-if="userStore.isAdmin == 1"
-          v-model:file-list="fileList"
-          class="upload-demo"
-          action="http://localhost:1015/upload/picture"
-          :limit="1"
-          multiple
-        >
-          <el-button type="warning" plain size="large" style="width: 100%"
-            >上传</el-button
-          >
-        </el-upload> -->
-        <!-- <input type="file">
-        <el-button type="warning" plain size="large" style="width: 50%"
-            >上传</el-button
-          > -->
-        <input type="file" @change="uploadImage1" />
+        <el-button plain size="large" type="warning" @click="showDialog()">
+          上传新项目
+        </el-button>
+        <CreateDialog
+          :dialogFormVisible="dialogFormVisible"
+          title = "上传新的可回收项目"
+          @misShowDialog="misShowDialog"
+          @updateList="updateList"
+        ></CreateDialog>
       </div>
     </div>
     <div class="list-show">
-      <ShowBox :recycleList="recycleList"></ShowBox>
+      <ShowBox :recycleList="showRecycleList"></ShowBox>
+    </div>
+    <div class="example-pagination-block">
+      <el-pagination
+        layout="prev, pager, next"
+        :total="recycleList.length"
+        @current-change="handleCurrentChange"
+        :page-count="Math.ceil(recycleList.length / pageSize)"
+        :current-page="currentPage"
+      />
     </div>
   </div>
 </template>
 
 
 <script setup>
-import { onMounted, reactive, ref, watch } from "vue";
-import { Search, ArrowRight } from "@element-plus/icons-vue";
+import { onMounted, reactive, ref, watch, defineEmits } from "vue";
+import {
+  Search,
+  ArrowRight,
+  Delete,
+  Plus,
+  ZoomIn,
+} from "@element-plus/icons-vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { useRoute } from "vue-router";
 import ShowBox from "../../components/Main/ShowBox.vue";
-import { getRecycleList, uploadImage } from "../../api/index";
+import CreateDialog from "../../components/Main/CreateDialog.vue";
+import {
+  getRecycleList,
+  uploadImage,
+  uploadRecycleItem,
+} from "../../api/index";
 import { useUserStore } from "../../store/user";
-import { URL } from "url";
 
 const route = useRoute();
 const userStore = useUserStore();
 
-const recycleList = ref({});
+const recycleList = ref([]);
+const showRecycleList = ref([]);
 
-onMounted(async () => {
+const updateList = async () => {
   recycleList.value = await getRecycleList();
-});
+  showRecycleList.value = recycleList.value.slice(
+    (currentPage.value - 1) * pageSize.value,
+    currentPage.value * pageSize.value
+  );
+};
+onMounted(updateList);
 
 const input1 = ref("");
 
 const imageFile = ref("");
 
-const uploadImage1 = async (event) => {
-  imageFile.value = event.target.files[0];
-  console.log("已选择文件:" + imageFile.value);
-  await uploadImage(imageFile.value);
+const uploadItem = async () => {
+  const result = await uploadRecycleItem(form);
+  ElMessage.success(result);
+  recycleList.value = await getRecycleList();
+  showRecycleList.value = recycleList.value.slice(
+    (currentPage.value - 1) * pageSize.value,
+    currentPage.value * pageSize.value
+  );
 };
+
+const dialogFormVisible = ref(false);
+const formLabelWidth = "100px";
+
+const showDialog = () => {
+  dialogFormVisible.value = true;
+};
+
+const misShowDialog = () => {
+  dialogFormVisible.value = false;
+};
+
+// 分页
+const currentPage = ref(1);
+const pageSize = ref(8);
+
+const handleCurrentChange = (page) => {
+  //页码更改方法
+  currentPage.value = page;
+  showRecycleList.value = recycleList.value.slice(
+    (currentPage.value - 1) * pageSize.value,
+    currentPage.value * pageSize.value
+  );
+  console.log(showRecycleList.value);
+};
+
+const handleSizeChange = () => {
+
+}
 </script>
 
 
 <style lang="less" scoped>
 .user-recycle-list {
   .breadcrumb {
-    padding: 4%;
+    padding: 4% 2%;
 
     .el-breadcrumb {
       font-size: 1.2rem;
     }
   }
   .search-box {
-    width: 70%;
-    margin-left: 4%;
+    width: 60%;
+    margin-left: 2%;
     margin-top: -1%;
     display: flex;
 
     .input {
-      width: 45%;
+      width: 50%;
 
       .el-input {
         border-radius: 5%;
@@ -101,14 +151,21 @@ const uploadImage1 = async (event) => {
     }
 
     .search-button {
-      width: 30%;
-      padding-left: 2%;
+      width: 45%;
       display: flex;
+      margin-left: 2%;
 
       .el-button {
         width: 50%;
       }
     }
   }
+  .example-pagination-block {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
 }
 </style>
+

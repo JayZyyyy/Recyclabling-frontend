@@ -56,11 +56,17 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, defineEmits } from "vue";
+import { reactive, ref } from "vue";
 import { User, Lock, Message, Checked } from "@element-plus/icons-vue";
 import type { FormInstance, FormRules } from 'element-plus'
 import {registerUser} from '../../api/index'
 import { ElMessage } from 'element-plus'
+import { useLoginStore } from '../../store/login'
+const loginStore = useLoginStore()
+
+const changeToLogin = () => {
+  loginStore.isLogin = true
+}
 
 const formData = reactive({
   name: "",
@@ -148,11 +154,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
     }
   })
 }
-
-const emit = defineEmits(["changeToLogin"]);
-const changeToLogin = () => {
-  emit("changeToLogin", true);
-};
 </script>
 
 <style lang="less" scoped>

@@ -32,7 +32,7 @@
       <div class="navigate-right" v-else>
         <div class="login" @click="logIn">登录</div>
         <div class="register">
-          <el-button color="#f7d400" round>在此注册</el-button>
+          <el-button color="#f7d400" round @click="toRegister">在此注册</el-button>
         </div>
       </div>
     </div>
@@ -43,6 +43,8 @@
 import { ArrowDown } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../store/user";
+import { defineEmits } from 'vue'
+import { useLoginStore } from '../store/login'
 const router = useRouter();
 
 const userStore = useUserStore();
@@ -54,7 +56,13 @@ const logIn = () => {
 const toUserView = () => {
   router.push(`/user/${userStore.id}`);
 }
+const emit = defineEmits(['changeToRegister'])
 
+const loginStore = useLoginStore()
+const toRegister = () => {
+  loginStore.isLogin = false
+  router.push("/login");
+}
 const logout = () => {
   userStore.resetData();
   router.push("/login");
