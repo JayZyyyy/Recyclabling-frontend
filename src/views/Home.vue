@@ -11,6 +11,7 @@
       </div>
       <div class="main">
         <ShowList></ShowList>
+        <show-commodities></show-commodities>
       </div>
     </div>
   </div>

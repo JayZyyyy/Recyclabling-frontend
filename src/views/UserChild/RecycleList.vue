@@ -19,7 +19,7 @@
         />
       </div>
       <div class="search-button">
-        <el-button type="primary" plain size="large"> 搜索 </el-button>
+        <el-button type="primary" plain size="large" @click="searchItem"> 搜索 </el-button>
         <el-button plain size="large" type="warning" @click="showDialog()">
           上传新项目
         </el-button>
@@ -64,6 +64,7 @@ import {
   getRecycleList,
   uploadImage,
   uploadRecycleItem,
+  getKeywordRecycleList
 } from "../../api/index";
 import { useUserStore } from "../../store/user";
 
@@ -83,6 +84,20 @@ const updateList = async () => {
 onMounted(updateList);
 
 const input1 = ref("");
+const searchItem = async () => {
+  const keywordList = await getKeywordRecycleList(input1.value)
+  if (keywordList.length > 8) {
+    showRecycleList.value =  keywordList.slice(
+    (currentPage.value - 1) * pageSize.value,
+    currentPage.value * pageSize.value)
+    recycleList.value =  keywordList
+  } else{
+    showRecycleList.value = keywordList
+    recycleList.value = keywordList
+  }
+  
+}
+
 
 const imageFile = ref("");
 

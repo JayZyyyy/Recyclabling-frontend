@@ -20,7 +20,13 @@
           <div class="tab">1</div>
           <div class="tab">1</div>
           <div class="tab">1</div>
-          <div class="tab">1</div>
+          <div class="tab" @click="toHomePage">
+            <div class="tab-icon">
+              <el-icon :size="28"><House /></el-icon>
+              
+            </div>
+
+            回到首页</div>
         </div>
       </div>
       <div class="right">
@@ -32,8 +38,9 @@
 
 <script setup>
 import { useUserStore } from "../store/user";
-import { Memo, Files } from "@element-plus/icons-vue";
+import { Memo, Files, House } from "@element-plus/icons-vue";
 import { useRouter, useRoute } from "vue-router";
+
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -42,6 +49,10 @@ const route = useRoute();
 const toHome = () => {
   router.push(`/user/${route.params.id}/home`);
 };
+
+const toHomePage = () => {
+  router.push('/home')
+}
 
 const toRecycleList = () => {
   router.push(`/user/${route.params.id}/recycleList`);

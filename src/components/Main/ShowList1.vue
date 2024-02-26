@@ -5,7 +5,7 @@
       <span class="sub-info">来了解一下吧！</span>
     </div>
     <div class="list">
-      <ShowBox :recycleList="showRecycleList"></ShowBox>
+      <ShowBox1 :recycleList="showRecycleList"></ShowBox1>
     </div>
     <div class="more">
       <el-button size="large" @click="toRecycleListPage">查看更多</el-button>

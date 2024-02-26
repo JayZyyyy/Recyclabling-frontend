@@ -35,6 +35,13 @@ export const getRecycleList = () => {
 }
 
 
+export const getKeywordRecycleList = (keyword = '') => {
+  return axios.get(`/api/recycleList/search/${keyword}`).then(response => {
+      return response?.data
+  })
+}
+
+
 export const uploadImage = (userData) => {
   let formData = new FormData();
   formData.append("picture", userData); 

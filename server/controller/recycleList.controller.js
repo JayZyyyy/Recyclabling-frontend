@@ -25,6 +25,12 @@ class RecycleListController {
     ctx.body = fs.createReadStream(`${PICTURE_PATH}/${filename}`) 
   }
 
+  async getKeywordList(ctx, next) {
+    const { keyword } = ctx.params
+    const keywordList = await recycleListService.searchKeywordList(keyword)
+    ctx.body = keywordList
+  }
+
   async saveInfo(ctx, next) {
     // 1.获取图像信息
     const files = ctx.req.files

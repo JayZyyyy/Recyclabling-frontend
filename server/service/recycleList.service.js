@@ -28,6 +28,12 @@ class recycleListService {
       console.log(error)
     }
   }
+
+  async searchKeywordList(keyword='') {
+    const statement = `SELECT * FROM recycleList WHERE LOWER(name) LIKE '%${keyword.toLowerCase().trim()}%'`
+    const [result] = await connection.execute(statement)
+    return result
+  }
 }
 
 module.exports = new recycleListService()

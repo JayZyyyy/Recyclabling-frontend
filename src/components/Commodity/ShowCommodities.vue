@@ -1,14 +1,14 @@
 <template>
-  <div class="show-list">
+  <div class="show-commodity">
     <div class="info">
-      <span>可利用废物列表展示</span>
-      <span class="sub-info">来了解一下吧！</span>
+      <span>可利用废物商品出售</span>
+      <span class="sub-info">来带走几件吧！</span>
     </div>
     <div class="list">
-      <ShowBox :recycleList="showRecycleList"></ShowBox>
+      <ShowBox1 :recycleList="showRecycleList"></ShowBox1>
     </div>
     <div class="more">
-      <el-button size="large" @click="toRecycleListPage">查看更多</el-button>
+      <el-button size="large" @click="toCommodityPage">查看更多</el-button>
     </div>
   </div>
 </template>
@@ -27,14 +27,15 @@ onMounted(async () => {
 })
 
 const router = useRouter()
-const toRecycleListPage = () => {
-  router.push('/recycleListPage')
+const toCommodityPage = () => {
+  router.push('/commodityPage')
 }
 </script>
 
 <style lang="less" scoped>
-.show-list {
+.show-commodity {
   margin-left: 2%;
+  margin-top: 2vw;
   text-align: center;
   .info {
     display: flex;

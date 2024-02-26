@@ -7,14 +7,12 @@
           <h3 @click="showDialog()">
             查看详情
           </h3>
-          <CreateDialog
+          <ShowDialog
             :info="info"
-            :dialogFormVisible="dialogFormVisible"
             :key="info.id"
-            title = "修改的该项目内容"
+            :dialogVisible="dialogVisible"
             @misShowDialog="misShowDialog"
-            @updateList="updateList"
-          ></CreateDialog>
+          ></ShowDialog>
         </div>
       </a>
     </div>
@@ -31,14 +29,14 @@ const props = defineProps({
 })
 
 
-const dialogFormVisible = ref(false);
+const dialogVisible = ref(false);
 
 const showDialog = () => {
-  dialogFormVisible.value = true;
+  dialogVisible.value = true;
 };
 
 const misShowDialog = () => {
-  dialogFormVisible.value = false;
+  dialogVisible.value = false;
 };
 
 const recycleList = ref([]);

@@ -19,6 +19,16 @@ const routes = [
     component: Home
   },
   { 
+    path: '/RecycleListPage',
+    name: 'recycleListPage',
+    component: ()=> import('../views/RecycleListPage.vue')
+  },
+  { 
+    path: '/CommodityPage',
+    name: 'commodityPage',
+    component: ()=> import('../views/CommodityPage.vue')
+  },
+  { 
     path: '/user/:id',
     name: 'user',
     component: ()=> import('../views/User.vue'),

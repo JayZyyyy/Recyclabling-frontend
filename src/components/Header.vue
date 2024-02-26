@@ -3,8 +3,8 @@
     <div class="header-nav">
       <div>Green-Recycling</div>
       <div class="navigate-mid">
-        <div class="nav-span">网站介绍</div>
-        <div class="nav-span">废物利用展示</div>
+        <div class="nav-span" @click="toHome">网站介绍</div>
+        <div class="nav-span" @click="toRecycleListPage">废物利用展示</div>
         <div class="nav-span">有关商品</div>
         <div class="nav-span">经验分享</div>
         <div class="nav-span">关于我们</div>
@@ -67,6 +67,14 @@ const logout = () => {
   userStore.resetData();
   router.push("/login");
 };
+
+const toHome = () => {
+  router.push('/home')
+}
+
+const toRecycleListPage = () => {
+  router.push("./recycleListPage")
+}
 </script> 
 
 <style scoped lang='less'>
