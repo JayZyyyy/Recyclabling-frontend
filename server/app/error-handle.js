@@ -1,4 +1,4 @@
-const errorTypes = require('./constants/error-types')
+const errorTypes = require('../constants/error-types')
 
 const errorHandler = (error, ctx) => {
   let status, message

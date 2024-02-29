@@ -4,17 +4,24 @@
       v-for="(image, index) in recycleList"
       :key="index"
       :info="image"
+      @updateList="updateList"
     ></ShowItem>
   </div>
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, defineEmits } from "vue";
 const props = defineProps({
   recycleList: {
     type: Array,
   },
 });
+
+const emit = defineEmits(['updateList'])
+const updateList = () => {
+  emit('updateList')
+}
+
 </script>
 
 <style lang="less" scoped>

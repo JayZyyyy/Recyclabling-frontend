@@ -10,7 +10,7 @@
         <Picture></Picture>
       </div>
       <div class="main">
-        <ShowList></ShowList>
+        <ShowList1></ShowList1>
         <show-commodities></show-commodities>
       </div>
     </div>

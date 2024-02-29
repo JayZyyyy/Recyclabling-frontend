@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useUserStore } from '../store/user'
+import { ElMessage } from 'element-plus';
 
 const userStore = useUserStore()
 
@@ -65,3 +66,57 @@ export const uploadRecycleItem = ({name, introduce, fileList}) => {
   })
 }
 
+export const updateRecycleItem = ({id, name, introduce, fileList}) => {
+  let formData = new FormData();
+  formData.append("picture", fileList[0].raw); 
+  formData.append("name", name); 
+  formData.append("introduce", introduce); 
+  return axios.post(`/api/recycleList/update/${id}`, formData,{
+    headers: 'multipart/form-data'
+  }).then(response => {
+      return response?.data
+  })
+}
+
+
+
+//commodity
+export const getCommodityList = () => {
+  return axios.get('/api/commodity').then(response => {
+      return response?.data
+  })
+}
+
+export const getCommodityListByUser = (id) => {
+  return axios.get(`/api/commodity/user/${id}`).then(response => {
+      return response?.data
+  })
+}
+
+export const uploadCommodity = ({name, introduce, fileList, category, count, price}) => {
+  let formData = new FormData();
+  formData.append("picture", fileList[0].raw);
+  formData.append("name", name);
+  formData.append("introduce", introduce);
+  formData.append("category", category);
+  formData.append("count", count);
+  formData.append("price", price);
+  return axios.post('/api/commodity/upload', formData,{
+    headers: 'multipart/form-data'
+  }).then(response => {
+      return response?.data
+  })
+}
+
+export const getKeywordCommodity = (keyword = '') => {
+  return axios.get(`/api/commodity/search/${keyword}`).then(response => {
+      return response?.data
+  })
+}
+
+
+export const getCommodityByCategory = (category = '') => {
+  return axios.get(`/api/commodity/category/${category}`).then(response => {
+      return response?.data
+  })
+}

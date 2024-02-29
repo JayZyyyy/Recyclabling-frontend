@@ -11,7 +11,7 @@
         :label-width="formLabelWidth"
         style="font-weight: 600"
       >
-        <el-input v-model="props.info.name" autocomplete="off" style="width: 75%" />
+        <el-input v-model="props.info.name" autocomplete="off" style="width: 75%" disabled/>
       </el-form-item>
       <el-form-item
         label="具体介绍"
@@ -24,6 +24,7 @@
           type="textarea"
           placeholder="请输入"
           style="width: 75%"
+          disabled
         />
       </el-form-item>
     </el-form>

@@ -4,17 +4,16 @@
       <a href="#" ondragstart="return false">
         <img :src="getImageUrl(info)" />
         <div class="mask">
-          <h3 @click="showDialog()">
+          <h3 @click="showDialog">
             查看详情
           </h3>
-          <CreateDialog
+          <UpdateDialog
             :info="info"
-            :dialogFormVisible="dialogFormVisible"
+            :dialogVisible="dialogVisible"
             :key="info.id"
-            title = "修改的该项目内容"
             @misShowDialog="misShowDialog"
             @updateList="updateList"
-          ></CreateDialog>
+          ></UpdateDialog>
         </div>
       </a>
     </div>
@@ -23,33 +22,29 @@
 </template>
 
 <script setup>
-import { defineProps, ref } from 'vue'
+import { defineProps, onMounted, ref, defineEmits } from 'vue'
+import { getRecycleList } from '../../api';
+
 const props = defineProps({
   info: {
     type: Object
   }
 })
 
+const emit = defineEmits(['updateList'])
+const updateList = () => {
+  emit('updateList')
+}
 
-const dialogFormVisible = ref(false);
+
+const dialogVisible = ref(false);
 
 const showDialog = () => {
-  dialogFormVisible.value = true;
+  dialogVisible.value = true;
 };
 
 const misShowDialog = () => {
-  dialogFormVisible.value = false;
-};
-
-const recycleList = ref([]);
-const showRecycleList = ref([]);
-
-const updateList = async () => {
-  recycleList.value = await getRecycleList();
-  showRecycleList.value = recycleList.value.slice(
-    (currentPage.value - 1) * pageSize.value,
-    currentPage.value * pageSize.value
-  );
+  dialogVisible.value = false;
 };
 
 

@@ -34,6 +34,16 @@ class recycleListService {
     const [result] = await connection.execute(statement)
     return result
   }
+
+  async updateRecycleItem(id, name, introduce, filename, mimetype, size) {
+    const statement = `UPDATE recycleList SET name = '${name}', introduce = '${introduce}', filename = '${filename}', mimetype = '${mimetype}', size = '${size}' WHERE id = ${id}`
+    try {
+      const [result] = await connection.execute(statement)
+      return result
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 module.exports = new recycleListService()

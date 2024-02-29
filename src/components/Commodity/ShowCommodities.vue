@@ -5,7 +5,7 @@
       <span class="sub-info">来带走几件吧！</span>
     </div>
     <div class="list">
-      <ShowBox1 :recycleList="showRecycleList"></ShowBox1>
+      <commodity-box :commodityList="showCommodityList"></commodity-box>
     </div>
     <div class="more">
       <el-button size="large" @click="toCommodityPage">查看更多</el-button>
@@ -15,18 +15,18 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import { getRecycleList } from '../../api/index'
+import { getCommodityList } from '../../api/index'
 import { useRouter } from 'vue-router'
 
-const recycleList = ref({})
-const showRecycleList = ref({})
+const commodityList = ref({})
+const showCommodityList = ref({})
 
 onMounted(async () => {
-  recycleList.value = await getRecycleList()
-  showRecycleList.value = recycleList.value.slice(0,8)
+  commodityList.value = await getCommodityList()
+  showCommodityList.value = commodityList.value.slice(0,8)
 })
 
-const router = useRouter()
+
 const toCommodityPage = () => {
   router.push('/commodityPage')
 }

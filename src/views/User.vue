@@ -10,23 +10,27 @@
             </div>
             <div class="tab-text">首页</div>
           </div>
-          <div class="tab" @click="toRecycleList"  v-if="userStore.isAdmin">
+          <div class="tab" @click="toRecycleList" v-if="userStore.isAdmin">
             <div class="tab-icon">
               <el-icon :size="28"><Files /></el-icon>
             </div>
             <div class="tab-text">可回收废物列表</div>
           </div>
-          <div class="tab">1</div>
+          <div class="tab" @click="toMyCommodity">
+            <div class="tab-icon">
+              <el-icon :size="28"><ShoppingBag /></el-icon>
+            </div>
+            <div class="tab-text">我的商品</div>
+          </div>
           <div class="tab">1</div>
           <div class="tab">1</div>
           <div class="tab">1</div>
           <div class="tab" @click="toHomePage">
             <div class="tab-icon">
               <el-icon :size="28"><House /></el-icon>
-              
             </div>
-
-            回到首页</div>
+            <div class="tab-text">回到首页</div>
+          </div>
         </div>
       </div>
       <div class="right">
@@ -38,9 +42,8 @@
 
 <script setup>
 import { useUserStore } from "../store/user";
-import { Memo, Files, House } from "@element-plus/icons-vue";
+import { Memo, Files, House,ShoppingBag } from "@element-plus/icons-vue";
 import { useRouter, useRoute } from "vue-router";
-
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -51,12 +54,16 @@ const toHome = () => {
 };
 
 const toHomePage = () => {
-  router.push('/home')
-}
+  router.push("/home");
+};
 
 const toRecycleList = () => {
   router.push(`/user/${route.params.id}/recycleList`);
 };
+
+const toMyCommodity = () => {
+  router.push(`/user/${route.params.id}/commodity`)
+}
 </script>
 
 <style lang="less" scoped>
@@ -75,7 +82,7 @@ const toRecycleList = () => {
       width: 15vw;
       height: 100vh;
       min-width: 200px;
-      border-right:0.1px solid #e5edeb ;
+      border-right: 0.1px solid #e5edeb;
       background: #f4fff9;
       text-align: center;
       opacity: 0.7;

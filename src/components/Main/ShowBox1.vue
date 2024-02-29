@@ -23,6 +23,6 @@ const props = defineProps({
   flex-wrap: wrap;
   margin-left: 1%;
   overflow: hidden;
-  margin-top: 2%;
+  margin-top: 1%;
 }
 </style>

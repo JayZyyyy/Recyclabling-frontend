@@ -47,6 +47,14 @@ const routes = [
         path: 'recycleList',
         component: () => import('../views/UserChild/RecycleList.vue')
       },
+      {
+        path: 'commodity',
+        component: () => import('../views/UserChild/Commodity.vue'),
+        beforeEnter: (to, from, next) => {
+          to.meta.data = { inUser: true};
+          next();
+        },
+      },
     ],
   },
 ]

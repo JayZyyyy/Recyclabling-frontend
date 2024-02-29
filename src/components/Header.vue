@@ -5,7 +5,7 @@
       <div class="navigate-mid">
         <div class="nav-span" @click="toHome">网站介绍</div>
         <div class="nav-span" @click="toRecycleListPage">废物利用展示</div>
-        <div class="nav-span">有关商品</div>
+        <div class="nav-span" @click="toCommodityPage">有关商品</div>
         <div class="nav-span">经验分享</div>
         <div class="nav-span">关于我们</div>
       </div>
@@ -74,6 +74,10 @@ const toHome = () => {
 
 const toRecycleListPage = () => {
   router.push("./recycleListPage")
+}
+
+const toCommodityPage = () => {
+  router.push("./commodityPage")
 }
 </script> 
 

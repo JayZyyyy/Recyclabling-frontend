@@ -44,6 +44,19 @@ class RecycleListController {
 
     ctx.body = '上传成功~'
   }
+
+  async updateRecycleItem(ctx, next) {
+    const files = ctx.req.files
+    const { name, introduce} = ctx.req.body
+    const { id } = ctx.params
+
+    for (let file of files) {
+      const { filename, mimetype, size } = file
+      await recycleListService.updateRecycleItem(id, name, introduce, filename, mimetype, size)
+    }
+
+    ctx.body = '更新成功'
+  }
 }
 
 module.exports = new RecycleListController()

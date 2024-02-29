@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="list-show">
-      <ShowBox :recycleList="showRecycleList"></ShowBox>
+      <ShowBox :recycleList="showRecycleList" @updateList="updateList"></ShowBox>
     </div>
     <div class="example-pagination-block">
       <el-pagination

@@ -52,12 +52,6 @@
               />
               <span class="el-upload-list__item-actions">
                 <span
-                  class="el-upload-list__item-preview"
-                  @click="handlePictureCardPreview(file),console.log(file)"
-                >
-                  <el-icon><zoom-in /></el-icon>
-                </span>
-                <span
                   class="el-upload-list__item-delete"
                   @click="handleRemove(file)"
                 >
@@ -77,10 +71,7 @@
         class="dialog-footer"
         style="display: flex; justify-content: center"
       >
-        <el-button
-          @click="misShowDialog"
-          size="large"
-          style="width: 20%"
+        <el-button @click="misShowDialog" size="large" style="width: 20%"
           >取消</el-button
         >
         <el-button
@@ -122,34 +113,37 @@ const props = defineProps({
     type: String,
   },
   info: {
-    type: Object
-  }
+    type: Object,
+  },
 });
 
-const emit = defineEmits(["misShowDialog",'updateList']);
+const emit = defineEmits(["misShowDialog", "updateList"]);
 const misShowDialog = () => {
   emit("misShowDialog", false);
 };
 
-const form = reactive(props.info ? props.info :{
-  name: "",
-  introduce: "",
-  fileList: [],
-});
-const recycleList = ref({})
+const form = reactive(
+  props.info
+    ? props.info
+    : {
+        name: "",
+        introduce: "",
+        fileList: [],
+      }
+);
+const recycleList = ref({});
 
 const uploadItem = async () => {
   if (form.fileList && form.introduce && form.name) {
     const result = await uploadRecycleItem(form);
     ElMessage.success(result);
-    emit('updateList')
+    emit("updateList");
   } else {
     ElMessage.warning("请确保以下三项都有内容哦");
   }
 };
 
 const formLabelWidth = "100px";
-
 
 const resetForm = () => {
   form.name = "";
@@ -180,7 +174,6 @@ const getImageUrl = (image) => {
   // 构建每个图片的 URL
   return `http://localhost:1015/recycleList/${image.filename}`; // 替换为实际的图片路径
 };
-
 </script>
 
 

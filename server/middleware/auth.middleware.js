@@ -47,7 +47,10 @@ const verifyAuth = async (ctx, next) => {
   const authorization = ctx.headers.authorization
   if (!authorization) {
     const error = new Error(errorTypes.UNAUTHORIZATION)
-    ctx.app.emit('error', error, ctx)
+    ctx.body = {
+      status: 401,
+      message: '用户凭证已过期，请重新登录'
+    }
   }
   const token = authorization.replace('Bearer ', '')
 
@@ -60,8 +63,10 @@ const verifyAuth = async (ctx, next) => {
     await next()
   } catch (err) {
     const error = new Error(errorTypes.UNAUTHORIZATION)
-    console.log(err)
-    ctx.app.emit('error', error, ctx)
+    ctx.body = {
+      status: 401,
+      message: '用户凭证已过期，请重新登录'
+    }
   }
 }
 
