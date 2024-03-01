@@ -4,17 +4,23 @@
       v-for="(image, index) in commodityList"
       :key="index"
       :info="image"
+      @updateList="updateList"
     ></commodity-item>
   </div>
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, defineEmits } from "vue";
 const props = defineProps({
   commodityList: {
     type: Array,
   },
 });
+const emit = defineEmits(['updateList'])
+const updateList = () => {
+  emit('updateList')
+}
+
 </script>
 
 <style lang="less" scoped>

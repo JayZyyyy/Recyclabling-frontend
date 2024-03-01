@@ -23,13 +23,18 @@
 </template>
 
 <script setup>
-import { defineProps, ref } from 'vue'
+import { defineProps, ref, defineEmits} from 'vue'
 import { getCommodityList } from '../../api';
 const props = defineProps({
   info: {
     type: Object
   }
 })
+const emit = defineEmits(['updateList'])
+const updateList = () => {
+  emit('updateList')
+}
+
 
 
 const dialogVisible = ref(false);
@@ -40,17 +45,6 @@ const showDialog = () => {
 
 const misShowDialog = () => {
   dialogVisible.value = false;
-};
-
-const commodityList = ref([]);
-const showCommodityList = ref([]);
-
-const updateList = async () => {
-  commodityList.value = await getCommodityList();
-  showCommodityList.value = commodityList.value.slice(
-    (currentPage.value - 1) * pageSize.value,
-    currentPage.value * pageSize.value
-  );
 };
 
 

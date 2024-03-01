@@ -43,6 +43,16 @@ class CommodityService {
     return result
   }
 
+
+  async updateCommodity(id, name, introduce, category, count, price, filename, mimetype, size) {
+    const statement = `UPDATE commodity SET name = '${name}', introduce = '${introduce}', filename = '${filename}', mimetype = '${mimetype}', size = '${size}', category = '${category}', count = '${count}', price = '${price}' WHERE id = ${id}`
+    try {
+      const [result] = await connection.execute(statement)
+      return result
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 module.exports = new CommodityService()

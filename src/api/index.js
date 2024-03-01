@@ -120,3 +120,18 @@ export const getCommodityByCategory = (category = '') => {
       return response?.data
   })
 }
+
+export const updateCommodity = ({id, name, introduce, category, count, price, fileList}) => {
+  let formData = new FormData();
+  formData.append("picture", fileList[0].raw); 
+  formData.append("name", name); 
+  formData.append("introduce", introduce); 
+  formData.append("category", category); 
+  formData.append("count", count);
+  formData.append("price", price);
+  return axios.post(`/api/commodity/modify/${id}`, formData,{
+    headers: 'multipart/form-data'
+  }).then(response => {
+      return response?.data
+  })
+}

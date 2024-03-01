@@ -66,6 +66,19 @@ class CommodityController {
     }
     
   }
+
+  async modifyCommodity(ctx, next) {
+    const files = ctx.req.files
+    const {name, introduce, category, count, price} = ctx.req.body
+    const { id } = ctx.params
+    for (let file of files) {
+      const { filename, mimetype, size } = file
+      
+      await commodityService.updateCommodity(id, name, introduce, category, count, price, filename, mimetype, size)
+    }
+
+    ctx.body = '更新成功'
+  }
 }
 
 module.exports = new CommodityController()

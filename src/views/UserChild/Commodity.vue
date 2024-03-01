@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="list-show">
-      <commodity-box :commodityList="showCommodityList"></commodity-box>
+      <commodity-box :commodityList="showCommodityList" @updateList="updateList"></commodity-box>
     </div>
     <div class="example-pagination-block">
       <el-pagination
@@ -89,6 +89,10 @@ const misShowDialog = () => {
 const commodityList = ref([]);
 const showCommodityList = ref([]);
 
+// 分页
+const currentPage = ref(1);
+const pageSize = ref(8);
+
 const updateList = async () => {
   commodityList.value = await getCommodityListByUser(route.params.id);
   showCommodityList.value = commodityList.value.slice(
@@ -97,10 +101,6 @@ const updateList = async () => {
   );
 };
 onMounted(updateList);
-
-// 分页
-const currentPage = ref(1);
-const pageSize = ref(8);
 
 const handleCurrentChange = (page) => {
   //页码更改方法
