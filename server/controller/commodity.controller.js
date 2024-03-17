@@ -37,12 +37,12 @@ class CommodityController {
   async uploadCommodity(ctx, next) {
     // 1.获取图像信息
     const files = ctx.req.files
-    const {name, introduce, category, count, price} = ctx.req.body
+    const {name, introduce, category, count, price, own} = ctx.req.body
 
     // 2.将所有的文件信息保存到数据库中
     for (let file of files) {
       const { filename, mimetype, size } = file
-      await commodityService.uploadNewCommodity(name, introduce, filename, mimetype, size, category, count, price)
+      await commodityService.uploadNewCommodity(name, introduce, filename, mimetype, size, category, count, price, own)
     }
 
     ctx.body = '上传成功~'
@@ -50,8 +50,8 @@ class CommodityController {
 
 
   async getKeywordCommodity(ctx, next) {
-    const { keyword } = ctx.params
-    const keywordCommodity = await commodityService.searchKeywordCommodity(keyword)
+    const { id, keyword } = ctx.query;
+    const keywordCommodity = await commodityService.searchKeywordCommodity(keyword, id)
     ctx.body = keywordCommodity
   }
 
@@ -76,6 +76,14 @@ class CommodityController {
       
       await commodityService.updateCommodity(id, name, introduce, category, count, price, filename, mimetype, size)
     }
+
+    ctx.body = '更新成功'
+  }
+
+  async modifyCommodityWithoutPic(ctx, next) {
+    const {name, introduce, category, count, price} = ctx.req.body
+    const { id } = ctx.params
+    await commodityService.updateCommodityWithoutPic(id, name, introduce, category, count, price)
 
     ctx.body = '更新成功'
   }

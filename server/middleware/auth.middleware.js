@@ -53,7 +53,6 @@ const verifyAuth = async (ctx, next) => {
     }
   }
   const token = authorization.replace('Bearer ', '')
-
   // 2. 验证token
   try {
     const result = jwt.verify(token, PUBLIC_KEY, {
@@ -62,6 +61,7 @@ const verifyAuth = async (ctx, next) => {
     ctx.user = result
     await next()
   } catch (err) {
+    console.log(err)
     const error = new Error(errorTypes.UNAUTHORIZATION)
     ctx.body = {
       status: 401,

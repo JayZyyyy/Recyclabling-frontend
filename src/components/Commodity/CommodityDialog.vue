@@ -11,7 +11,12 @@
         :label-width="formLabelWidth"
         style="font-weight: 600"
       >
-        <el-input v-model="form.name" autocomplete="off" style="width: 75%" :disabled="disabled"/>
+        <el-input
+          v-model="form.name"
+          autocomplete="off"
+          style="width: 75%"
+          :disabled="disabled"
+        />
       </el-form-item>
       <el-form-item
         label="具体介绍"
@@ -27,27 +32,44 @@
           :disabled="disabled"
         />
       </el-form-item>
-            <el-form-item
+      <el-form-item
         label="价格"
         :label-width="formLabelWidth"
         style="font-weight: 600"
       >
-        <el-input v-model="form.price" autocomplete="off" style="width: 75%" :disabled="disabled" type="number"
-          step="0.01"/>
+        <el-input
+          v-model="form.price"
+          autocomplete="off"
+          style="width: 75%"
+          :disabled="disabled"
+          type="number"
+          step="0.01"
+        />
       </el-form-item>
       <el-form-item
         label="库存"
         :label-width="formLabelWidth"
         style="font-weight: 600"
       >
-        <el-input v-model="form.count" autocomplete="off" style="width: 75%" :disabled="disabled" type="number"/>
+        <el-input
+          v-model="form.count"
+          autocomplete="off"
+          style="width: 75%"
+          :disabled="disabled"
+          type="number"
+        />
       </el-form-item>
       <el-form-item
         label="分类"
         :label-width="formLabelWidth"
         style="font-weight: 600"
       >
-        <el-input v-model="form.category" autocomplete="off" style="width: 75%" :disabled="disabled"/>
+        <el-input
+          v-model="form.category"
+          autocomplete="off"
+          style="width: 75%"
+          :disabled="disabled"
+        />
       </el-form-item>
       <el-form-item
         label="图片"
@@ -92,24 +114,55 @@
     </el-form>
     <template #footer>
       <div class="dialog-footer">
-        <el-button @click="resetStatus(),misShowDialog()">取消</el-button>
-        <el-button v-if="modifyButton && !confirmButton" type="warning" @click="modify">
+        <el-button @click="resetStatus(), misShowDialog()">取消</el-button>
+        <el-button
+          v-if="modifyButton && !confirmButton"
+          type="warning"
+          @click="modify"
+        >
           点击修改
         </el-button>
-        <el-button v-if="confirmButton" type="warning" @click="updateCommodityFunc(), misShowDialog(), resetForm()">
+        <el-button
+          v-if="confirmButton"
+          type="warning"
+          @click="updateCommodityFunc(), misShowDialog(), resetForm()"
+        >
           确认修改
         </el-button>
-        <el-button type="primary" @click="resetStatus(),misShowDialog()">
+        <el-button
+          type="warning"
+          v-if="!modifyButton"
+          @click="centerDialogVisible = true"
+        >
+          加入购物车
+        </el-button>
+        <el-button type="primary" @click="resetStatus(), misShowDialog()">
           确认
         </el-button>
       </div>
+      <el-dialog
+        v-model="centerDialogVisible"
+        title="购买数量"
+        width="300"
+        center
+      >
+        <el-input-number v-model="num" :min="1" :max="10" size="large" />
+        <template #footer>
+          <div class="dialog-footer">
+            <el-button @click="centerDialogVisible = false">取消</el-button>
+            <el-button type="primary" @click="addItemFunc">
+              确认
+            </el-button>
+          </div>
+        </template>
+      </el-dialog>
     </template>
   </el-dialog>
 </template>
 
 <script setup>
 import { reactive, ref, defineProps, defineEmits } from "vue";
-import { ElMessageBox } from 'element-plus'
+import { ElMessageBox, ElMessage } from "element-plus";
 import { useRoute } from "vue-router";
 import {
   Search,
@@ -118,40 +171,59 @@ import {
   Plus,
   ZoomIn,
 } from "@element-plus/icons-vue";
-import { updateCommodity } from '../../api/index'
+import { updateCommodity, updateCommodityWithoutPic, addItem } from "../../api/index";
+import { useUserStore } from "../../store/user";
 
 const props = defineProps({
   dialogVisible: {
-    type: Boolean
+    type: Boolean,
   },
   info: {
-    type: Object
-  }
+    type: Object,
+  },
 });
+
+const centerDialogVisible = ref(false);
+const num = ref(1);
+
+const userStore = useUserStore()
+const addItemFunc = async () => {
+  const addItemData = {
+    commodityId: form.id,
+    userId: userStore.id,
+    count: num.value
+  }
+  const result = await addItem(addItemData)
+  if (result?.status === 401) {
+    ElMessage.warning(result.message)
+  }
+  console.log(result)
+  centerDialogVisible.value = false
+}
 
 const formLabelWidth = "100px";
 
-const emit = defineEmits(["misShowDialog",'updateList']);
+const emit = defineEmits(["misShowDialog", "updateList"]);
 const misShowDialog = () => {
   emit("misShowDialog", false);
-}
+};
 
+const route = useRoute();
+const modifyButton = route?.meta?.data?.inUser;
+const disabled = ref(true);
+const confirmButton = ref(false);
 
-const route = useRoute()
-const modifyButton = route?.meta?.data?.inUser
-const disabled = ref(true)
-const confirmButton = ref(false)
 const modify = () => {
-  disabled.value = false
-  confirmButton.value = true
-}
+  disabled.value = false;
+  confirmButton.value = true;
+};
 
 const resetStatus = () => {
-  disabled.value = true
-  confirmButton.value = false
-}
+  disabled.value = true;
+  confirmButton.value = false;
+};
 
-const file = ref(props.info.fileList)
+const file = ref(props.info.fileList);
 const form = reactive({
   id: props.info.id,
   name: props.info.name || "",
@@ -168,24 +240,31 @@ const resetForm = () => {
 };
 
 const updateCommodityFunc = async () => {
-  if (form.name === props.info.name && form.introduce === props.info.introduce && form.fileList.length === 0 && form.category === props.info.category
-    && form.count === props.info.count && form.price === props.info.price) {
-    ElMessage.warning('没有改动的内容')
-    return
+  if (
+    form.name === props.info.name &&
+    form.introduce === props.info.introduce &&
+    form.fileList.length === 0 &&
+    form.category === props.info.category &&
+    form.count === props.info.count &&
+    form.price === props.info.price
+  ) {
+    ElMessage.warning("没有改动的内容");
+    return;
   }
-  if(form.fileList.length === 0) {
-    form.fileList[0] = file
+  let result = "";
+  if (form.fileList.length === 0) {
+    result = await updateCommodityWithoutPic(form);
+  } else {
+    result = await updateCommodity(form);
   }
-  const result = await updateCommodity(form);
   if (result.status === 401) {
-    ElMessage.warning(result.message)
-  }else {
+    ElMessage.warning(result.message);
+  } else {
     emit("updateList");
     ElMessage.success(result);
   }
-}
-
-
+  resetStatus();
+};
 
 const dialogImageUrl = ref("");
 const dialogImageVisible = ref(false);

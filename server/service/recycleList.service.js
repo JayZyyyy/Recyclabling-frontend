@@ -44,6 +44,17 @@ class recycleListService {
       console.log(error)
     }
   }
+
+  async updateRecycleItemWithoutPic(id, name, introduce) {
+    const statement = `UPDATE recycleList SET name = '${name}', introduce = '${introduce}' WHERE id = ${id}`
+    try {
+      const [result] = await connection.execute(statement)
+      return result
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  
 }
 
 module.exports = new recycleListService()

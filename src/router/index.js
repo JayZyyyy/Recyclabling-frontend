@@ -55,6 +55,14 @@ const routes = [
           next();
         },
       },
+      {
+        path: 'cart',
+        component: () => import('../views/UserChild/Cart.vue'),
+        beforeEnter: (to, from, next) => {
+          to.meta.data = { inUser: true};
+          next();
+        },
+      },
     ],
   },
 ]

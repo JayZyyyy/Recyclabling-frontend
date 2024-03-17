@@ -21,8 +21,8 @@
             <el-dropdown-menu>
               <el-dropdown-item v-if="userStore.isAdmin" @click="toUserView">管理页面</el-dropdown-item>
               <el-dropdown-item v-else @click="toUserView">个人主页</el-dropdown-item>
-              <el-dropdown-item>Action 1</el-dropdown-item>
-              <el-dropdown-item>Action 2</el-dropdown-item>
+              <el-dropdown-item @click="toUserCommodity">我的商品</el-dropdown-item>
+              <el-dropdown-item @click="toUserCart">我的购物车</el-dropdown-item>
               <el-dropdown-item>Action 3</el-dropdown-item>
               <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
@@ -78,6 +78,14 @@ const toRecycleListPage = () => {
 
 const toCommodityPage = () => {
   router.push("./commodityPage")
+}
+
+const toUserCommodity = () => {
+  router.push(`/user/${userStore.id}/commodity`);
+}
+
+const toUserCart = () => {
+  router.push(`/user/${userStore.id}/cart`);
 }
 </script> 
 

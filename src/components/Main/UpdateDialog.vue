@@ -87,7 +87,7 @@ import {
   Plus,
   ZoomIn,
 } from "@element-plus/icons-vue";
-import { updateRecycleItem } from "../../api";
+import { updateRecycleItem, updateRecycleItemWithoutPic} from "../../api";
 
 const props = defineProps({
   dialogVisible: {
@@ -123,10 +123,12 @@ const updateItem = async () => {
     ElMessage.warning('没有改动的内容')
     return
   }
+  let result = ''
   if(form.fileList.length === 0) {
-    form.fileList[0] = file
+    result = await updateRecycleItemWithoutPic(form)
+  } else {
+    result = await updateRecycleItem(form)
   }
-  const result = await updateRecycleItem(form);
   if (result.status === 401) {
     ElMessage.warning(result.message)
   }else {

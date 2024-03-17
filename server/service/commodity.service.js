@@ -14,10 +14,10 @@ class CommodityService {
     return result
   }
 
-  async uploadNewCommodity(name, introduce, filename, mimetype, size, category, count, price) {
-    const statement = `INSERT INTO commodity (name, introduce, filename, mimetype, size, category, count, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+  async uploadNewCommodity(name, introduce, filename, mimetype, size, category, count, price, own) {
+    const statement = `INSERT INTO commodity (name, introduce, filename, mimetype, size, category, count, price, own) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
     try {
-      const [result] = await connection.execute(statement, [name, introduce, filename, mimetype, size, category, count, price])
+      const [result] = await connection.execute(statement, [name, introduce, filename, mimetype, size, category, count, price, own])
       return result
     } catch (error) {
       console.log(error)
@@ -31,8 +31,13 @@ class CommodityService {
   }
 
 
-  async searchKeywordCommodity(keyword='') {
-    const statement = `SELECT * FROM commodity WHERE LOWER(name) LIKE '%${keyword.toLowerCase().trim()}%'`
+  async searchKeywordCommodity(keyword='', id) {
+    let statement = ''
+    if (id) {
+      statement = `SELECT * FROM commodity WHERE LOWER(name) LIKE '%${keyword.toLowerCase().trim()}%' AND own = ${id}`
+    } else {
+      statement = `SELECT * FROM commodity WHERE LOWER(name) LIKE '%${keyword.toLowerCase().trim()}%'`
+    }
     const [result] = await connection.execute(statement)
     return result
   }
@@ -46,6 +51,16 @@ class CommodityService {
 
   async updateCommodity(id, name, introduce, category, count, price, filename, mimetype, size) {
     const statement = `UPDATE commodity SET name = '${name}', introduce = '${introduce}', filename = '${filename}', mimetype = '${mimetype}', size = '${size}', category = '${category}', count = '${count}', price = '${price}' WHERE id = ${id}`
+    try {
+      const [result] = await connection.execute(statement)
+      return result
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async updateCommodityWithoutPic(id, name, introduce, category, count, price) {
+    const statement = `UPDATE commodity SET name = '${name}', introduce = '${introduce}', category = '${category}', count = '${count}', price = '${price}' WHERE id = ${id}`
     try {
       const [result] = await connection.execute(statement)
       return result

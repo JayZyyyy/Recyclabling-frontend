@@ -105,12 +105,11 @@ onMounted(updateList);
 const handleCurrentChange = (page) => {
   //页码更改方法
   currentPage.value = page;
-  showRecycleList.value = recycleList.value.slice(
+  showCommodityList.value = commodityList.value.slice(
     (currentPage.value - 1) * pageSize.value,
     currentPage.value * pageSize.value
   );
-  console.log(showRecycleList.value);
-};
+  }
 
 const handleSizeChange = () => {}
 
@@ -118,7 +117,7 @@ const handleSizeChange = () => {}
 const searchKey = ref("")
 
 const search = async () => {
-  const keywordList = await getKeywordCommodity(searchKey.value)
+  const keywordList = await getKeywordCommodity(searchKey.value, userStore.id)
   if (keywordList.length > 8) {
     showCommodityList.value =  keywordList.slice(
     (currentPage.value - 1) * pageSize.value,

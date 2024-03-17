@@ -57,6 +57,16 @@ class RecycleListController {
 
     ctx.body = '更新成功'
   }
+
+  async updateRecycleItemWithoutPic(ctx, next) {
+    const files = ctx.req.files
+    const { name, introduce} = ctx.req.body
+    const { id } = ctx.params
+    
+    await recycleListService.updateRecycleItemWithoutPic(id, name, introduce)
+    ctx.body = '更新成功'
+  }
+
 }
 
 module.exports = new RecycleListController()

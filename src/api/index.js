@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useUserStore } from '../store/user'
 import { ElMessage } from 'element-plus';
+import qs from 'qs'
 
 const userStore = useUserStore()
 
@@ -78,6 +79,18 @@ export const updateRecycleItem = ({id, name, introduce, fileList}) => {
   })
 }
 
+export const updateRecycleItemWithoutPic = ({id, name, introduce}) => {
+  let formData = new FormData();
+  formData.append("name", name); 
+  formData.append("introduce", introduce); 
+  return axios.post(`/api/recycleList/update1/${id}`, formData,{
+    headers: 'multipart/form-data'
+  }).then(response => {
+      return response?.data
+  })
+}
+
+
 
 
 //commodity
@@ -93,7 +106,7 @@ export const getCommodityListByUser = (id) => {
   })
 }
 
-export const uploadCommodity = ({name, introduce, fileList, category, count, price}) => {
+export const uploadCommodity = ({name, introduce, fileList, category, count, price, own}) => {
   let formData = new FormData();
   formData.append("picture", fileList[0].raw);
   formData.append("name", name);
@@ -101,6 +114,7 @@ export const uploadCommodity = ({name, introduce, fileList, category, count, pri
   formData.append("category", category);
   formData.append("count", count);
   formData.append("price", price);
+  formData.append("own", own);
   return axios.post('/api/commodity/upload', formData,{
     headers: 'multipart/form-data'
   }).then(response => {
@@ -108,8 +122,13 @@ export const uploadCommodity = ({name, introduce, fileList, category, count, pri
   })
 }
 
-export const getKeywordCommodity = (keyword = '') => {
-  return axios.get(`/api/commodity/search/${keyword}`).then(response => {
+export const getKeywordCommodity = (keyword, id) => {
+  const params = {
+    id: id,
+    keyword: keyword
+  }
+  const queryString = qs.stringify(params);
+  return axios.get(`/api/commodity/search?${queryString}`).then(response => {
       return response?.data
   })
 }
@@ -130,6 +149,34 @@ export const updateCommodity = ({id, name, introduce, category, count, price, fi
   formData.append("count", count);
   formData.append("price", price);
   return axios.post(`/api/commodity/modify/${id}`, formData,{
+    headers: 'multipart/form-data'
+  }).then(response => {
+      return response?.data
+  })
+}
+
+export const updateCommodityWithoutPic = ({id, name, introduce, category, count, price}) => {
+  let formData = new FormData();
+  formData.append("name", name); 
+  formData.append("introduce", introduce); 
+  formData.append("category", category); 
+  formData.append("count", count);
+  formData.append("price", price);
+  return axios.post(`/api/commodity/modify1/${id}`, formData,{
+    headers: 'multipart/form-data'
+  }).then(response => {
+      return response?.data
+  })
+}
+
+
+//cart 
+export const addItem = ({commodityId, userId, count}) => {
+  let formData = new FormData();
+  formData.append("commodityId", commodityId); 
+  formData.append("userId", userId); 
+  formData.append("count", count);
+  return axios.post(`/api/cart/addItem/${userId}`, formData,{
     headers: 'multipart/form-data'
   }).then(response => {
       return response?.data

@@ -150,8 +150,10 @@ import {
   uploadCommodity,
 } from "../../api/index";
 import { useRoute } from "vue-router";
+import { useUserStore } from '../../store/user'
 
 const route = useRoute()
+const user = useUserStore()
 
 const props = defineProps({
   dialogFormVisible: {
@@ -184,6 +186,7 @@ const form = reactive(
 
 const uploadItem = async () => {
   if (form.fileList && form.introduce && form.name && form.category && form.count && form.price) {
+    form.own = user.id
     const result = await uploadCommodity(form);
     ElMessage.success(result);
     emit("updateList")

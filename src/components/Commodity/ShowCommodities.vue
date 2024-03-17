@@ -26,7 +26,7 @@ onMounted(async () => {
   showCommodityList.value = commodityList.value.slice(0,8)
 })
 
-
+const router = useRouter()
 const toCommodityPage = () => {
   router.push('/commodityPage')
 }

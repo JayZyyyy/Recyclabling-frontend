@@ -22,7 +22,12 @@
             </div>
             <div class="tab-text">我的商品</div>
           </div>
-          <div class="tab">1</div>
+          <div class="tab" @click="toMyCart">
+            <div class="tab-icon">
+              <el-icon :size="28"><ShoppingCart /></el-icon>
+            </div>
+            <div class="tab-text">我的购物车</div>
+          </div>
           <div class="tab">1</div>
           <div class="tab">1</div>
           <div class="tab" @click="toHomePage">
@@ -42,7 +47,7 @@
 
 <script setup>
 import { useUserStore } from "../store/user";
-import { Memo, Files, House,ShoppingBag } from "@element-plus/icons-vue";
+import { Memo, Files, House, ShoppingBag, ShoppingCart } from "@element-plus/icons-vue";
 import { useRouter, useRoute } from "vue-router";
 
 const userStore = useUserStore();
@@ -63,6 +68,10 @@ const toRecycleList = () => {
 
 const toMyCommodity = () => {
   router.push(`/user/${route.params.id}/commodity`)
+}
+
+const toMyCart = () => {
+  router.push(`/user/${route.params.id}/cart`)
 }
 </script>
 
