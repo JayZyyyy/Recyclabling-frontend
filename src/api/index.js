@@ -171,14 +171,53 @@ export const updateCommodityWithoutPic = ({id, name, introduce, category, count,
 
 
 //cart 
-export const addItem = ({commodityId, userId, count}) => {
+export const getCartList = (id) => {
+  return axios.get(`/api/cart/cartList/${id}`).then(response => {
+      return response?.data
+  })
+}
+
+export const addItem = ({commodityId, userId, num}) => {
   let formData = new FormData();
   formData.append("commodityId", commodityId); 
   formData.append("userId", userId); 
-  formData.append("count", count);
-  return axios.post(`/api/cart/addItem/${userId}`, formData,{
+  formData.append("num", num);
+  return axios.post(`/api/cart/addItem`, formData,{
     headers: 'multipart/form-data'
   }).then(response => {
       return response?.data
   })
 }
+
+export const updateCart = (userId, commodityId, num) => {
+  let formData = new FormData();
+  formData.append("commodityId", commodityId); 
+  formData.append("num", num);
+  return axios.post(`/api/cart/update/${userId}`, formData,{
+    headers: 'multipart/form-data'
+  }).then(response => {
+      return response?.data
+  })
+}
+
+
+export const deleteItem = (userId, commodityId) => {
+  let formData = new FormData();
+  formData.append("commodityId", commodityId); 
+  return axios.post(`/api/cart/delete/${userId}`, formData,{
+    headers: 'multipart/form-data'
+  }).then(response => {
+      return response?.data
+  })
+}
+
+export const checkoutCart = (userId, cartArr) => {
+  let formData = new FormData();
+  formData.append("cartArr", JSON.stringify(cartArr)); 
+  return axios.post(`/api/cart/checkout/${userId}`, formData,{
+    headers: 'multipart/form-data'
+  }).then(response => {
+      return response?.data
+  })
+}
+

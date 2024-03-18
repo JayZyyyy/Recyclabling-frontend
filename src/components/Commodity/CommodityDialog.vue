@@ -191,13 +191,16 @@ const addItemFunc = async () => {
   const addItemData = {
     commodityId: form.id,
     userId: userStore.id,
-    count: num.value
+    num: num.value
   }
+  
   const result = await addItem(addItemData)
   if (result?.status === 401) {
     ElMessage.warning(result.message)
+  } else {
+    ElMessage.success(result)
   }
-  console.log(result)
+  misShowDialog()
   centerDialogVisible.value = false
 }
 

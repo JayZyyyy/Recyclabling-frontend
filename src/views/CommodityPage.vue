@@ -196,6 +196,8 @@ const filterByCategory = async (category = '') => {
   showCommodityList.value = result
   commodityList.value = result
 }
+
+
 </script>
 
 
