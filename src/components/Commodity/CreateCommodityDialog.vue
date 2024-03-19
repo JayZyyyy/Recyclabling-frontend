@@ -236,12 +236,12 @@ const getImageUrl = (image) => {
 // 选择器
 const options = [
   {
-    value: "塑料瓶类",
-    label: "塑料瓶类",
+    value: "塑料制品类",
+    label: "塑料制品类",
   },
   {
-    value: "玻璃瓶类",
-    label: "玻璃瓶类",
+    value: "玻璃类",
+    label: "玻璃类",
   },
   {
     value: "报纸废纸类",
@@ -252,20 +252,20 @@ const options = [
     label: "纸箱类",
   },
   {
-    value: "塑料制品类",
-    label: "塑料制品类",
-  },
-  {
-    value: "旧书籍类",
-    label: "旧书籍类",
-  },
-  {
     value: "厨余用品类",
     label: "厨余用品类",
   },
   {
-    value: "特色信件",
-    label: "特色信件",
+    value: "衣服类",
+    label: "衣服类",
+  },
+  {
+    value: "手工制品类",
+    label: "手工制品类",
+  },
+  {
+    value: "家电类",
+    label: "家电类",
   },
   {
     value: "其他类",

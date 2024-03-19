@@ -9,17 +9,17 @@
     <div class="search">
       <div class="search-input">
         <input
-          v-model="input1"
+          v-model="searchInfo"
           size="large"
           placeholder="请输入想了解的内容吧！"
         />
-        <img src="../../assets/search.png" alt="" />
+        <img src="../../assets/search.png" alt=""  @click="search"/>
       </div>
-      <div class="search-example">
+      <!-- <div class="search-example">
         <span>日常废纸</span>
         <span>可回收利用资源</span>
         <span>再利用商品</span>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -27,8 +27,14 @@
 <script setup>
 import { ref } from "vue";
 import { Search } from "@element-plus/icons-vue";
-const input1 = ref("");
-</script>
+import { useRouter } from "vue-router";
+const router = useRouter()
+const searchInfo = ref("");
+
+const search = () => {
+  router.push({ path: '/searchPage', query: { keyword: searchInfo.value } });
+}
+</script> 
 
 <style lang="less" scoped>
 .pic-info {

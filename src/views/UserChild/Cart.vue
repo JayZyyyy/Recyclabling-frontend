@@ -207,6 +207,8 @@ const checkout = async () => {
   } else {
     ElMessage.warning(res)
   }
+  multipleTableRef.value.clearSelection()
+  getList()
 }
 
 const getImageUrl = (filename) => {

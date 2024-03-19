@@ -28,8 +28,24 @@
             </div>
             <div class="tab-text">我的购物车</div>
           </div>
-          <div class="tab">1</div>
-          <div class="tab">1</div>
+          <div class="tab" @click="toMySoldOut">
+            <div class="tab-icon">
+              <el-icon :size="28"><SoldOut /></el-icon>
+            </div>
+            <div class="tab-text">已购买商品</div>
+          </div>
+          <div class="tab" @click="toMyBuy">
+            <div class="tab-icon">
+              <el-icon :size="28"><Sell /></el-icon>
+            </div>
+            <div class="tab-text">已售出商品</div>
+          </div>
+          <div class="tab" >
+            <div class="tab-icon">
+              <el-icon :size="28"><Reading /></el-icon>
+            </div>
+            <div class="tab-text">我的帖子</div>
+          </div>
           <div class="tab" @click="toHomePage">
             <div class="tab-icon">
               <el-icon :size="28"><House /></el-icon>
@@ -47,7 +63,16 @@
 
 <script setup>
 import { useUserStore } from "../store/user";
-import { Memo, Files, House, ShoppingBag, ShoppingCart } from "@element-plus/icons-vue";
+import {
+  Memo,
+  Files,
+  House,
+  ShoppingBag,
+  ShoppingCart,
+  SoldOut,
+  Reading,
+  Sell
+} from "@element-plus/icons-vue";
 import { useRouter, useRoute } from "vue-router";
 
 const userStore = useUserStore();
@@ -67,11 +92,19 @@ const toRecycleList = () => {
 };
 
 const toMyCommodity = () => {
-  router.push(`/user/${route.params.id}/commodity`)
-}
+  router.push(`/user/${route.params.id}/commodity`);
+};
 
 const toMyCart = () => {
-  router.push(`/user/${route.params.id}/cart`)
+  router.push(`/user/${route.params.id}/cart`);
+};
+
+const toMySoldOut = () => {
+  router.push(`/user/${route.params.id}/soldOut`);
+};
+
+const toMyBuy = () => {
+  router.push(`/user/${route.params.id}/buy`);
 }
 </script>
 

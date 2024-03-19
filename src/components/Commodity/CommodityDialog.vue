@@ -132,7 +132,7 @@
         <el-button
           type="warning"
           v-if="!modifyButton"
-          @click="centerDialogVisible = true"
+          @click="addIntoCart"
         >
           加入购物车
         </el-button>
@@ -146,7 +146,7 @@
         width="300"
         center
       >
-        <el-input-number v-model="num" :min="1" :max="10" size="large" />
+        <el-input-number v-model="num" :min="1" :max="maxCount" size="large" />
         <template #footer>
           <div class="dialog-footer">
             <el-button @click="centerDialogVisible = false">取消</el-button>
@@ -187,6 +187,11 @@ const centerDialogVisible = ref(false);
 const num = ref(1);
 
 const userStore = useUserStore()
+const maxCount = ref(0)
+const addIntoCart = () => {
+  maxCount.value = form.count
+  centerDialogVisible.value = true
+}
 const addItemFunc = async () => {
   const addItemData = {
     commodityId: form.id,

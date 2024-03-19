@@ -2,14 +2,16 @@ const connection = require('../app/database')
 
 class CommodityService {
   async getCommodityList() {
-    const statement = `SELECT * FROM commodity;`
+    const count = 0;
+    const statement = `SELECT * FROM commodity WHERE count != ${count};`
     const [result] = await connection.execute(statement)
     return result
   }
   
 
   async getCommodityListById(id) {
-    const statement = `SELECT * FROM commodity WHERE own = ${id};`
+    const count = 0;
+    const statement = `SELECT * FROM commodity WHERE own = ${id} AND count != ${count};`
     const [result] = await connection.execute(statement)
     return result
   }
@@ -32,18 +34,20 @@ class CommodityService {
 
 
   async searchKeywordCommodity(keyword='', id) {
+    const count = 0
     let statement = ''
     if (id) {
-      statement = `SELECT * FROM commodity WHERE LOWER(name) LIKE '%${keyword.toLowerCase().trim()}%' AND own = ${id}`
+      statement = `SELECT * FROM commodity WHERE LOWER(name) LIKE '%${keyword.toLowerCase().trim()}%' AND own = ${id} AND count != ${count};`
     } else {
-      statement = `SELECT * FROM commodity WHERE LOWER(name) LIKE '%${keyword.toLowerCase().trim()}%'`
+      statement = `SELECT * FROM commodity WHERE LOWER(name) LIKE '%${keyword.toLowerCase().trim()}%' AND count != ${count};`
     }
     const [result] = await connection.execute(statement)
     return result
   }
 
   async getCommodityByCategory(category = '') {
-    const statement = `SELECT * FROM commodity WHERE LOWER(category) LIKE '%${category.toLowerCase().trim()}%'`
+    const count = 0
+    const statement = `SELECT * FROM commodity WHERE LOWER(category) LIKE '%${category.toLowerCase().trim()}%' AND count != ${count}`
     const [result] = await connection.execute(statement)
     return result
   }
@@ -51,6 +55,16 @@ class CommodityService {
 
   async updateCommodity(id, name, introduce, category, count, price, filename, mimetype, size) {
     const statement = `UPDATE commodity SET name = '${name}', introduce = '${introduce}', filename = '${filename}', mimetype = '${mimetype}', size = '${size}', category = '${category}', count = '${count}', price = '${price}' WHERE id = ${id}`
+    try {
+      const [result] = await connection.execute(statement)
+      return result
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async updateCommodityCount(id, count) {
+    const statement = `UPDATE commodity SET count = '${count}' WHERE id = ${id}`
     try {
       const [result] = await connection.execute(statement)
       return result

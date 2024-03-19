@@ -4,13 +4,29 @@ const commodityService = require('../service/commodity.service')
 class CartController {
   async getCartList(ctx, next) {
     const { id } = ctx.params
-    const result = await cartService.getCartList(id)
+    const status = 1
+    const result = await cartService.getCartList(id, status)
+    ctx.body = result
+  }
+
+  async getSoldOutList(ctx, next) {
+    const { id } = ctx.params
+    const status = 2
+    const result = await cartService.getSoldOutList(id, status)
+    ctx.body = result
+  }
+
+  async getBuyList(ctx, next) {
+    const { id } = ctx.params
+    const status = 2
+    const result = await cartService.getBuyList(id, status)
     ctx.body = result
   }
 
   async addItem(ctx, next) {
     const { commodityId, userId, num } = ctx.req.body
-    const cartList = await cartService.getCartList(userId)
+    const status = 1
+    const cartList = await cartService.getCartList(userId, status)
     let isAlive = false
     let finalNum = 0
     cartList.find((obj) => {
@@ -52,17 +68,24 @@ class CartController {
     const commodityList = await commodityService.getCommodityList()
     const jsonCartArr = JSON.parse(cartArr)
 
+    const commodityIdArr = []
     const matchingObjects = [];
     jsonCartArr.forEach(obj1 => {
       const matchingObj = commodityList.find(obj2 => obj1.commodityId === obj2.id);
       if (matchingObj) {
         matchingObjects.push(matchingObj);
+        commodityIdArr.push(matchingObj.id)
       }
       });
     const isConfirm = compareCounts(jsonCartArr, matchingObjects)
     
     if(isConfirm) {
-      // await cartService.checkoutCart(userId, commodityId)
+      await cartService.checkoutCart(userId, commodityIdArr)
+
+      isConfirm.forEach(async (obj) => {
+        console.log(obj.id, obj.count)
+        await commodityService.updateCommodityCount(obj.id, obj.count)
+      })
       ctx.body = {
         message: '结算成功',
         status: 200
@@ -70,8 +93,9 @@ class CartController {
     } else {
       ctx.body="结算失败，商品库存不足"
     }
-    
   }
+
+
 }
 
 const compareCounts = (arr1, arr2) => {
@@ -81,18 +105,23 @@ const compareCounts = (arr1, arr2) => {
     countMap[obj.id || obj.commodityId] = obj.count;
   });
 
+  const changedArr = []
   // 遍历数组1中的每个对象
   for (const obj of arr1) {
     // 获取对应的 count
     const count = countMap[obj.id || obj.commodityId];
     
-    // 如果 count 存在且小于当前对象的 count，则返回 false
+    // 如果 count 存在且大于当前对象的 count
     if (count !== undefined && count < obj.num) {
       return false;
     }
+
+    if (count !== undefined && count >= obj.num) {
+      changedArr.push({...obj, count: count - obj.num})
+    }
   }
 
-  return true;
+  return changedArr;
 }
 
 module.exports = new CartController()

@@ -17,21 +17,21 @@
               <font-awesome-icon icon="fa-solid fa-shirt" size="3x" />
             </el-tooltip>
           </div>
-          <div class="icon" @click="filterByCategory('塑料瓶类')">
+          <div class="icon" @click="filterByCategory('塑料制品类')">
             <el-tooltip
               class="box-item"
               effect="light"
-              content="塑料瓶类"
+              content="塑料制品类"
               placement="top"
             >
               <font-awesome-icon icon="fa-solid fa-bottle-water" size="3x" />
             </el-tooltip>
           </div>
-          <div class="icon" @click="filterByCategory('玻璃瓶类')">
+          <div class="icon" @click="filterByCategory('玻璃类')">
             <el-tooltip
               class="box-item"
               effect="light"
-              content="玻璃瓶类"
+              content="玻璃类"
               placement="top"
             >
               <font-awesome-icon icon="fa-solid fa-bottle-droplet" size="3x" />
@@ -57,26 +57,6 @@
               <font-awesome-icon icon="fa-solid fa-box" size="3x" />
             </el-tooltip>
           </div>
-          <div class="icon" @click="filterByCategory('塑料制品类')">
-            <el-tooltip
-              class="box-item"
-              effect="light"
-              content="塑料制品类"
-              placement="top"
-            >
-              <font-awesome-icon icon="fa-solid fa-bucket" size="3x" />
-            </el-tooltip>
-          </div>
-          <div class="icon" @click="filterByCategory('旧书籍类')">
-            <el-tooltip
-              class="box-item"
-              effect="light"
-              content="旧书籍类"
-              placement="top"
-            >
-              <font-awesome-icon icon="fa-solid fa-book" size="3x" />
-            </el-tooltip>
-          </div>
           <div class="icon" @click="filterByCategory('厨余用品类')">
             <el-tooltip
               class="box-item"
@@ -84,17 +64,27 @@
               content="厨余用品类"
               placement="top"
             >
-              <font-awesome-icon icon="fa-solid fa-utensils" size="3x" />
+            <font-awesome-icon icon="fa-solid fa-kitchen-set" size="3x"/>
             </el-tooltip>
           </div>
-          <div class="icon" @click="filterByCategory('特色信件')">
+          <div class="icon" @click="filterByCategory('手工制品类')">
             <el-tooltip
               class="box-item"
               effect="light"
-              content="特色信件"
+              content="手工制品类"
               placement="top"
             >
-              <font-awesome-icon icon="fa-solid fa-envelope" size="3x" />
+              <font-awesome-icon icon="fa-solid fa-hand" size="3x"/>
+            </el-tooltip>
+          </div>
+          <div class="icon" @click="filterByCategory('家电类')">
+            <el-tooltip
+              class="box-item"
+              effect="light"
+              content="家电类"
+              placement="top"
+            >
+              <font-awesome-icon icon="fa-solid fa-icons" size="3x"/>
             </el-tooltip>
           </div>
           <div class="icon" @click="filterByCategory('其他类')">

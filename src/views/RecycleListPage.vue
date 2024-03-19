@@ -44,7 +44,6 @@ const handleCurrentChange = (page) => {
     (currentPage.value - 1) * pageSize.value,
     currentPage.value * pageSize.value
   );
-  console.log(showRecycleList.value);
 };
 </script>
 

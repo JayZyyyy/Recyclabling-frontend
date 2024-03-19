@@ -29,6 +29,11 @@ const routes = [
     component: ()=> import('../views/CommodityPage.vue')
   },
   { 
+    path: '/SearchPage',
+    name: 'searchPage',
+    component: ()=> import('../views/SearchPage.vue')
+  },
+  { 
     path: '/user/:id',
     name: 'user',
     component: ()=> import('../views/User.vue'),
@@ -62,6 +67,14 @@ const routes = [
           to.meta.data = { inUser: true};
           next();
         },
+      },
+      {
+        path: 'soldOut',
+        component: () => import('../views/UserChild/SoldOut.vue'),
+      },
+      {
+        path: 'buy',
+        component: () => import('../views/UserChild/Buy.vue'),
       },
     ],
   },

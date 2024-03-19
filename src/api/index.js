@@ -177,6 +177,21 @@ export const getCartList = (id) => {
   })
 }
 
+
+export const getSoldOutList = (id) => {
+  return axios.get(`/api/cart/cartSoldOutList/${id}`).then(response => {
+      return response?.data
+  })
+}
+
+export const getBuyList = (id) => {
+  return axios.get(`/api/cart/cartBuyList/${id}`).then(response => {
+      return response?.data
+  })
+}
+
+
+
 export const addItem = ({commodityId, userId, num}) => {
   let formData = new FormData();
   formData.append("commodityId", commodityId); 
