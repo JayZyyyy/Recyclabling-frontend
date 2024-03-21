@@ -12,7 +12,6 @@ class RecycleListController {
   }
 
   async getFileInfo(ctx, next) {
-    // console.log('first')
     let { filename } = ctx.params
     const fileInfo = await recycleListService.getFileByFilename(filename)
     const { type } = ctx.query

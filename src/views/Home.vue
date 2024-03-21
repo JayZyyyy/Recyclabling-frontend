@@ -12,6 +12,7 @@
       <div class="main">
         <ShowList1></ShowList1>
         <show-commodities></show-commodities>
+        <show-moments></show-moments>
         <div class="bottom">
           <el-descriptions class="margin-top" :column="3" border>
             <template #title>
@@ -96,9 +97,6 @@ import { onMounted } from "vue";
 import { useUserStore } from "../store/user";
 
 const userStore = useUserStore();
-onMounted(() => {
-  console.log(userStore.isAdmin);
-});
 </script>
 
 

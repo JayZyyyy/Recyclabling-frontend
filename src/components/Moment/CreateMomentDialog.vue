@@ -7,19 +7,19 @@
   >
     <el-form :model="form">
       <el-form-item
-        label="名称"
+        label="标题"
         :label-width="formLabelWidth"
         style="font-weight: 600"
       >
-      <el-input v-model="form.name" autocomplete="off" style="width: 75%" />
+        <el-input v-model="form.title" autocomplete="off" style="width: 75%" />
       </el-form-item>
       <el-form-item
-        label="具体介绍"
+        label="具体内容"
         :label-width="formLabelWidth"
         style="font-weight: 600"
       >
         <el-input
-          v-model="form.introduce"
+          v-model="form.content"
           :rows="3"
           type="textarea"
           placeholder="请输入"
@@ -27,52 +27,7 @@
         />
       </el-form-item>
       <el-form-item
-        label="分类"
-        :label-width="formLabelWidth"
-        style="font-weight: 600"
-      >
-        <el-select
-          v-model="form.category"
-          class="m-2"
-          placeholder="选择类别"
-          size="default"
-          style="width: 240px"
-        >
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item
-        label="价格"
-        :label-width="formLabelWidth"
-        style="font-weight: 600"
-      >
-        <el-input
-          v-model="form.price"
-          autocomplete="off"
-          style="width: 75%"
-          type="number"
-          step="0.01"
-        />
-      </el-form-item>
-      <el-form-item
-        label="库存"
-        :label-width="formLabelWidth"
-        style="font-weight: 600"
-      >
-        <el-input
-          v-model="form.count"
-          autocomplete="off"
-          style="width: 75%"
-          type="number"
-        />
-      </el-form-item>
-      <el-form-item
-        label="图片"
+        label="配图"
         :label-width="formLabelWidth"
         style="font-weight: 600"
       >
@@ -121,7 +76,7 @@
         >
         <el-button
           type="primary"
-          @click="uploadItem()"
+          @click="uploadMoment()"
           size="large"
           style="width: 20%"
         >
@@ -144,16 +99,12 @@ import {
 } from "@element-plus/icons-vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import ShowBox from "../../components/Main/ShowBox.vue";
-import {
-  getRecycleList,
-  uploadImage,
-  uploadCommodity,
-} from "../../api/index";
+import { addMoment } from "../../api/index";
 import { useRoute } from "vue-router";
-import { useUserStore } from '../../store/user'
+import { useUserStore } from "../../store/user";
 
-const route = useRoute()
-const user = useUserStore()
+const route = useRoute();
+const user = useUserStore();
 
 const props = defineProps({
   dialogFormVisible: {
@@ -162,51 +113,46 @@ const props = defineProps({
   info: {
     type: Object,
   },
+  title: {
+    type: String,
+  },
 });
-
-
 
 const emit = defineEmits(["misShowDialog", "updateList"]);
 const misShowDialog = () => {
   emit("misShowDialog", false);
 };
 
-const form = reactive(
-  props.info
-    ? props.info
-    : {
-        name: "",
-        introduce: "",
-        fileList: [],
-        category: "",
-        count: '',
-        price: '',
-      }
-);
+const form = reactive({
+  title: "",
+  content: "",
+  fileList: [],
+});
 
-const uploadItem = async () => {
-  if (form.fileList && form.introduce && form.name && form.category && form.count && form.price) {
-    form.own = user.id
-    const result = await uploadCommodity(form);
+const uploadMoment = async () => {
+  if (
+    form.fileList &&
+    form.content &&
+    form.title
+  ) {
+    form.userId = user.id;
+    const result = await addMoment(form);
     ElMessage.success(result);
-    emit("updateList")
-    misShowDialog()
-    resetForm()
+    emit("updateList");
+    misShowDialog();
+    resetForm();
   } else {
     ElMessage.warning("请确保所有表单都有内容哦~");
-    return
+    return;
   }
 };
 
 const formLabelWidth = "100px";
 
 const resetForm = () => {
-  form.name = "";
-  form.introduce = "";
+  form.title = "";
+  form.content = "";
   form.fileList = [];
-  form.category = "";
-  form.count = '';
-  form.price = '';
   hideUpload.value = form.fileList.length > 0;
 };
 
@@ -233,45 +179,6 @@ const getImageUrl = (image) => {
   return `http://localhost:1015/commodity/${image.filename}`; // 替换为实际的图片路径
 };
 
-// 选择器
-const options = [
-  {
-    value: "塑料制品类",
-    label: "塑料制品类",
-  },
-  {
-    value: "玻璃类",
-    label: "玻璃类",
-  },
-  {
-    value: "报纸废纸类",
-    label: "报纸废纸类",
-  },
-  {
-    value: "纸箱类",
-    label: "纸箱类",
-  },
-  {
-    value: "厨余用品类",
-    label: "厨余用品类",
-  },
-  {
-    value: "衣服类",
-    label: "衣服类",
-  },
-  {
-    value: "手工制品类",
-    label: "手工制品类",
-  },
-  {
-    value: "家电类",
-    label: "家电类",
-  },
-  {
-    value: "其他类",
-    label: "其他类",
-  },
-];
 </script>
 
 

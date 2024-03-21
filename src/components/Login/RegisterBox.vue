@@ -140,16 +140,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
         password: formData.password
       }
       await registerUser(data).then((res) => {
-        console.log(res)
         if (res.status === 409) {
           ElMessage.warning(res.message)
         } else {
           ElMessage.success("注册成功，请登录")
-          setTimeout(() => { emit("changeToLogin", true) }, 200)
+          setTimeout(() => { changeToLogin()})
         }
       })
     } else {
-      console.log('error submit!')
       return false
     }
   })

@@ -23,7 +23,7 @@
               <el-dropdown-item v-else @click="toUserView">个人主页</el-dropdown-item>
               <el-dropdown-item @click="toUserCommodity">我的商品</el-dropdown-item>
               <el-dropdown-item @click="toUserCart">我的购物车</el-dropdown-item>
-              <el-dropdown-item>Action 3</el-dropdown-item>
+              <el-dropdown-item @click="toUserMoment">我的帖子</el-dropdown-item>
               <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -88,6 +88,9 @@ const toUserCart = () => {
   router.push(`/user/${userStore.id}/cart`);
 }
 
+const toUserMoment = () => {
+  router.push(`/user/${userStore.id}/moment`);
+}
 
 </script> 
 

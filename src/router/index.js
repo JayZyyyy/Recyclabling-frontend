@@ -34,6 +34,11 @@ const routes = [
     component: ()=> import('../views/SearchPage.vue')
   },
   { 
+    path: '/MomentPage',
+    name: 'momentPage',
+    component: ()=> import('../views/MomentPage.vue')
+  },
+  { 
     path: '/user/:id',
     name: 'user',
     component: ()=> import('../views/User.vue'),
@@ -75,6 +80,14 @@ const routes = [
       {
         path: 'buy',
         component: () => import('../views/UserChild/Buy.vue'),
+      },
+      {
+        path: 'moment',
+        component: () => import('../views/UserChild/Moment.vue'),
+        beforeEnter: (to, from, next) => {
+          to.meta.data = { inUser: true};
+          next();
+        },
       },
     ],
   },

@@ -20,7 +20,6 @@ class CommodityController {
  }
 
   async getFileInfo(ctx, next) {
-    // console.log('first')
     let { filename } = ctx.params
     const fileInfo = await commodityService.getFileByFilename(filename)
     const { type } = ctx.query

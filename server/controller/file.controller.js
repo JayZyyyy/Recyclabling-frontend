@@ -6,7 +6,6 @@ class FileController {
   async saveAvatarInfo(ctx, next) {
     // 1. 获取图像相关信息
     const { filename, mimetype, size } = ctx.req.file
-    // console.log(ctx.req.file)
     const { id } = ctx.user
 
     // 2. 将图像信息数据保存到数据库中
@@ -14,7 +13,6 @@ class FileController {
 
     // 3. 将图片地址保存到user表中
     const avatarUrl = `${APP_HOST}:${APP_PORT}/users/${id}/avatar`
-    // console.log(avatarUrl)
     await userService.updateAvatarUrlById(avatarUrl, id)
 
     ctx.body = '上传头像成功~'
@@ -23,7 +21,6 @@ class FileController {
   async savePictureInfo(ctx, next) {
     // 1.获取图像信息
     const files = ctx.req.files
-    console.log(files)
 
     // 2.将所有的文件信息保存到数据库中
     for (let file of files) {

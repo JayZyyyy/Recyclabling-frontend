@@ -83,7 +83,6 @@ class CartController {
       await cartService.checkoutCart(userId, commodityIdArr)
 
       isConfirm.forEach(async (obj) => {
-        console.log(obj.id, obj.count)
         await commodityService.updateCommodityCount(obj.id, obj.count)
       })
       ctx.body = {

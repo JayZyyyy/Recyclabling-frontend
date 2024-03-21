@@ -14,8 +14,6 @@ const pictureUpload = Multer({
 })
 
 const pictureHandler = pictureUpload.array('picture', 9)
-// console.log('first')
-// console.log(pictureHandler)
 
 const pictureResize = async (ctx, next) => {
   // 1. 获取所有的图像信息

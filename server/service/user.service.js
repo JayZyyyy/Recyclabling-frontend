@@ -16,7 +16,6 @@ class UserService {
   }
 
   async searchUser(userId) {
-    console.log(userId)
     const statement = `SELECT * FROM user WHERE id = ?;`
     // 将user存储字数据库中
     const result = await connection.execute(statement, [userId])

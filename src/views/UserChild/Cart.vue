@@ -159,11 +159,6 @@ const handleSelectionChange = (val) => {
   });
 };
 
-// 操作
-const handleDelete = (index, row) => {
-  console.log(index, row);
-};
-
 // 防抖
 function debounce(fn, delay = 300) {
   let timer = null;

@@ -47,7 +47,6 @@ export const getKeywordRecycleList = (keyword = '') => {
 export const uploadImage = (userData) => {
   let formData = new FormData();
   formData.append("picture", userData); 
-  console.log(formData)
   return axios.post('/api/upload/picture', formData,{
     headers: 'multipart/form-data'
   }).then(response => {
@@ -236,3 +235,55 @@ export const checkoutCart = (userId, cartArr) => {
   })
 }
 
+// moment
+export const addMoment = ({userId, title, content, fileList}) => {
+  let formData = new FormData();
+  formData.append("userId", userId); 
+  formData.append("title", title); 
+  formData.append("content", content); 
+  formData.append("picture", fileList[0].raw); 
+  return axios.post(`/api/moment/addMoment`, formData,{
+    headers: 'multipart/form-data'
+  }).then(response => {
+      return response?.data
+  })
+}
+
+export const getMomentList = () => {
+  return axios.get(`/api/moment`).then(response => {
+      return response?.data
+  })
+}
+
+export const getMomentListById = (userId) => {
+  return axios.get(`/api/moment/list/${userId}`).then(response => {
+      return response?.data
+  })
+}
+
+export const deleteMoment = (momentId) => {
+  return axios.post(`/api/moment/delete/${momentId}`,{
+    headers: 'multipart/form-data'
+  }).then(response => {
+      return response?.data
+  })
+}
+
+
+//comment
+export const getCommentList = (id) => {
+  return axios.get(`/api/comment/${id}`).then(response => {
+      return response?.data
+  })
+}
+export const addComment = ({userId, content, momentId}) => {
+  let formData = new FormData();
+  formData.append("userId", userId); 
+  formData.append("momentId", momentId); 
+  formData.append("content", content); 
+  return axios.post(`/api/comment/addComment`, formData,{
+    headers: 'multipart/form-data'
+  }).then(response => {
+      return response?.data
+  })
+}

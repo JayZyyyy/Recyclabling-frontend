@@ -28,19 +28,19 @@
             </div>
             <div class="tab-text">我的购物车</div>
           </div>
-          <div class="tab" @click="toMySoldOut">
+          <div class="tab" @click="toMyBuy">
             <div class="tab-icon">
               <el-icon :size="28"><SoldOut /></el-icon>
             </div>
             <div class="tab-text">已购买商品</div>
           </div>
-          <div class="tab" @click="toMyBuy">
+          <div class="tab" @click="toMySoldOut">
             <div class="tab-icon">
               <el-icon :size="28"><Sell /></el-icon>
             </div>
             <div class="tab-text">已售出商品</div>
           </div>
-          <div class="tab" >
+          <div class="tab"  @click="toMyMoment">
             <div class="tab-icon">
               <el-icon :size="28"><Reading /></el-icon>
             </div>
@@ -106,6 +106,12 @@ const toMySoldOut = () => {
 const toMyBuy = () => {
   router.push(`/user/${route.params.id}/buy`);
 }
+
+const toMyMoment = () => {
+  router.push(`/user/${route.params.id}/moment`);
+}
+
+
 </script>
 
 <style lang="less" scoped>
@@ -143,8 +149,6 @@ const toMyBuy = () => {
         .tab {
           display: flex;
           padding: 15px;
-          width: 100%;
-          margin: auto;
           cursor: pointer;
           &:hover {
             color: #83c5b3;

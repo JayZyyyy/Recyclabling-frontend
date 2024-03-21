@@ -1,45 +1,45 @@
 <template>
-  <div class="user-recycle-list">
+  <div class="user-moment">
     <div class="breadcrumb">
       <el-breadcrumb :separator-icon="ArrowRight">
         <el-breadcrumb-item :to="{ path: `/user/${route.params.id}/home` }"
           >首页</el-breadcrumb-item
         >
-        <el-breadcrumb-item>可回收废物列表</el-breadcrumb-item>
+        <el-breadcrumb-item>我的动态列表</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="search-box">
       <div class="input">
         <el-input
-          v-model="input1"
+          v-model="searchKey"
           class="w-50 m-2"
           size="large"
-          placeholder="搜索想要了解的物品吧~"
+          placeholder="搜索动态~"
           :suffix-icon="Search"
         />
       </div>
       <div class="search-button">
-        <el-button type="primary" plain size="large" @click="searchItem"> 搜索 </el-button>
-        <el-button plain size="large" type="warning" @click="showDialog()">
-          上传新项目
+        <el-button type="primary" plain size="large" @click="search"> 搜索 </el-button>
+        <el-button plain size="large" type="warning" @click="showDialog">
+          上传新动态
         </el-button>
-        <CreateDialog
+        <create-moment-dialog
           :dialogFormVisible="dialogFormVisible"
-          title = "上传新的可回收项目"
+          title = "分享新动态"
           @misShowDialog="misShowDialog"
           @updateList="updateList"
-        ></CreateDialog>
+        ></create-moment-dialog>
       </div>
     </div>
     <div class="list-show">
-      <ShowBox :recycleList="showRecycleList" @updateList="updateList"></ShowBox>
+      <moment-box :momentList="showMomentList" @updateList="updateList"></moment-box>
     </div>
     <div class="example-pagination-block">
       <el-pagination
         layout="prev, pager, next"
-        :total="recycleList.length"
+        :total="momentList.length"
         @current-change="handleCurrentChange"
-        :page-count="Math.ceil(recycleList.length / pageSize)"
+        :page-count="Math.ceil(momentList.length / pageSize)"
         :current-page="currentPage"
       />
     </div>
@@ -61,58 +61,17 @@ import { useRoute } from "vue-router";
 import ShowBox from "../../components/Main/ShowBox.vue";
 import CreateDialog from "../../components/Main/CreateDialog.vue";
 import {
-  getRecycleList,
-  uploadImage,
-  uploadRecycleItem,
-  getKeywordRecycleList
+  getMomentListById
 } from "../../api/index";
 import { useUserStore } from "../../store/user";
 
 const route = useRoute();
 const userStore = useUserStore();
 
-const recycleList = ref([]);
-const showRecycleList = ref([]);
-
-const updateList = async () => {
-  recycleList.value = await getRecycleList();
-  showRecycleList.value = recycleList.value.slice(
-    (currentPage.value - 1) * pageSize.value,
-    currentPage.value * pageSize.value
-  );
-};
-onMounted(updateList);
-
 const input1 = ref("");
-const searchItem = async () => {
-  const keywordList = await getKeywordRecycleList(input1.value)
-  if (keywordList.length > 8) {
-    showRecycleList.value =  keywordList.slice(
-    (currentPage.value - 1) * pageSize.value,
-    currentPage.value * pageSize.value)
-    recycleList.value =  keywordList
-  } else{
-    showRecycleList.value = keywordList
-    recycleList.value = keywordList
-  }
-  
-}
 
-
-const imageFile = ref("");
-
-const uploadItem = async () => {
-  const result = await uploadRecycleItem(form);
-  ElMessage.success(result);
-  recycleList.value = await getRecycleList();
-  showRecycleList.value = recycleList.value.slice(
-    (currentPage.value - 1) * pageSize.value,
-    currentPage.value * pageSize.value
-  );
-};
-
+// dialog
 const dialogFormVisible = ref(false);
-const formLabelWidth = "100px";
 
 const showDialog = () => {
   dialogFormVisible.value = true;
@@ -122,27 +81,53 @@ const misShowDialog = () => {
   dialogFormVisible.value = false;
 };
 
+//list 
+const momentList = ref([]);
+const showMomentList = ref([]);
+
 // 分页
 const currentPage = ref(1);
-const pageSize = ref(8);
+const pageSize = ref(6);
 
-const handleCurrentChange = (page) => {
-  //页码更改方法
-  currentPage.value = page;
-  showRecycleList.value = recycleList.value.slice(
+const updateList = async () => {
+  momentList.value = await getMomentListById(route.params.id);
+  showMomentList.value = momentList.value.slice(
     (currentPage.value - 1) * pageSize.value,
     currentPage.value * pageSize.value
   );
 };
+onMounted(updateList);
 
-const handleSizeChange = () => {
+const handleCurrentChange = (page) => {
+  //页码更改方法
+  currentPage.value = page;
+  showMomentList.value = momentList.value.slice(
+    (currentPage.value - 1) * pageSize.value,
+    currentPage.value * pageSize.value
+  );
+  }
 
+const handleSizeChange = () => {}
+
+//search
+const searchKey = ref("")
+
+const search = async () => {
+  const keywordList = await getKeywordCommodity(searchKey.value, userStore.id)
+  if (keywordList.length > 8) {
+    showMomentList.value =  keywordList.slice(
+    (currentPage.value - 1) * pageSize.value,
+    currentPage.value * pageSize.value)
+    recycleList.value =  keywordList
+  } else{
+    showMomentList.value = keywordList
+    momentList.value = keywordList
+  }
 }
 </script>
 
-
 <style lang="less" scoped>
-.user-recycle-list {
+.user-moment {
   .breadcrumb {
     padding: 4% 2%;
 
@@ -182,4 +167,3 @@ const handleSizeChange = () => {
   }
 }
 </style>
-
