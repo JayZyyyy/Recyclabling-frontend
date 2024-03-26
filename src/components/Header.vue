@@ -6,7 +6,7 @@
         <div class="nav-span" @click="toHome">网站介绍</div>
         <div class="nav-span" @click="toRecycleListPage">废物利用展示</div>
         <div class="nav-span" @click="toCommodityPage">有关商品</div>
-        <div class="nav-span">经验分享</div>
+        <div class="nav-span" @click="toMomentPage">经验分享</div>
         <div class="nav-span">关于我们</div>
       </div>
       <div class="navigate-right" v-if="userStore.token">
@@ -21,6 +21,7 @@
             <el-dropdown-menu>
               <el-dropdown-item v-if="userStore.isAdmin" @click="toUserView">管理页面</el-dropdown-item>
               <el-dropdown-item v-else @click="toUserView">个人主页</el-dropdown-item>
+              <el-dropdown-item @click="toUserInfo">我的信息</el-dropdown-item>
               <el-dropdown-item @click="toUserCommodity">我的商品</el-dropdown-item>
               <el-dropdown-item @click="toUserCart">我的购物车</el-dropdown-item>
               <el-dropdown-item @click="toUserMoment">我的帖子</el-dropdown-item>
@@ -76,8 +77,18 @@ const toRecycleListPage = () => {
   router.push("./recycleListPage")
 }
 
+
+const toMomentPage = () => {
+  router.push("./momentPage")
+}
+
 const toCommodityPage = () => {
   router.push("./commodityPage")
+}
+
+const toUserInfo = () => {
+  router.push(`/user/${userStore.id}/info`);
+
 }
 
 const toUserCommodity = () => {
@@ -91,6 +102,7 @@ const toUserCart = () => {
 const toUserMoment = () => {
   router.push(`/user/${userStore.id}/moment`);
 }
+
 
 </script> 
 

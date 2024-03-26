@@ -43,7 +43,7 @@ const userStore = useUserStore()
 const loginFunc = async () => {
   await login(formData).then((res) => {
     if (res.status === 400) {
-      ElMessage.error(res.message)
+      ElMessage.warning(res.message)
     } else {
       ElMessage.success("登录成功")
       userStore.storeData(res)

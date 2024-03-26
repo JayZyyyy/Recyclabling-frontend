@@ -24,6 +24,46 @@ export const registerUser = (userData) => {
   })
 }
 
+export const getUserInfo = (id) => {
+  return axios.get(`/api/user/${id}`).then(response => {
+      return response?.data
+  })
+}
+
+export const getUserList = () => {
+  return axios.get(`/api/user`).then(response => {
+      return response?.data
+  })
+}
+
+export const deleteUser = (id) => {
+  return axios.post(`/api/user/delete/${id}`).then(response => {
+      return response?.data
+  })
+}
+
+export const modifyInfo = ({id, name, email}) => {
+  let formData = new FormData();
+  formData.append("name", name); 
+  formData.append("email", email); 
+  return axios.post(`/api/user/modify/${id}`, formData,{
+    headers: 'multipart/form-data'
+  }).then(response => {
+      return response?.data
+  })
+}
+
+export const modifyPassInfo = ({id, password}) => {
+  let formData = new FormData();
+  formData.append("password", password); 
+  return axios.post(`/api/user/password/${id}`, formData,{
+    headers: 'multipart/form-data'
+  }).then(response => {
+      return response?.data
+  })
+}
+
+
 export const login = (userData) => {
   return axios.post('/api/login', userData).then(response => {
       return response?.data
@@ -269,6 +309,15 @@ export const deleteMoment = (momentId) => {
   })
 }
 
+export const getKeywordMoment = (keyword) => {
+  return axios.get(`/api/moment/search/${keyword}`,{
+    headers: 'multipart/form-data'
+  }).then(response => {
+      return response?.data
+  })
+}
+
+
 
 //comment
 export const getCommentList = (id) => {
@@ -287,3 +336,4 @@ export const addComment = ({userId, content, momentId}) => {
       return response?.data
   })
 }
+

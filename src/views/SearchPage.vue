@@ -45,13 +45,28 @@
         />
       </div>
     </div>
+    <div class="momentList">
+      <div class="header">好物经验分享交流中心</div>
+      <div class="showList">
+      <moment-box :momentList="showMomentList"></moment-box>
+    </div>
+      <div class="example-pagination-block">
+        <el-pagination
+          layout="prev, pager, next"
+          :total="momentList.length"
+          @current-change="handleCurrentChange"
+          :page-count="Math.ceil(momentList.length / pageSize)"
+          :current-page="currentPage"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { useRoute } from "vue-router";
 import { onMounted, ref } from "vue";
-import { getKeywordRecycleList, getKeywordCommodity } from "../api/index";
+import { getKeywordRecycleList, getKeywordCommodity,getKeywordMoment } from "../api/index";
 
 const route = useRoute();
 const keyword = ref(route.query.keyword);
@@ -59,12 +74,17 @@ const keyword = ref(route.query.keyword);
 //recycleList
 const recycleList = ref({});
 const showRecycleList = ref({});
+const momentList = ref({});
+const showMomentList = ref({});
 
 onMounted(async () => {
   recycleList.value = await getKeywordRecycleList(keyword.value);
   showRecycleList.value = recycleList.value.slice(0, 4);
   commodityList.value = await getKeywordCommodity(keyword.value);
   showCommodityList.value = commodityList.value.slice(0, 4);
+  momentList.value = await getKeywordMoment(keyword.value)
+  showMomentList.value = momentList.value.slice(0, 4);
+  
 });
 const currentPage = ref(1);
 const pageSize = ref(4);
@@ -138,7 +158,7 @@ const handleCurrentChangeC = (page) => {
     }
   }
 
-  .recycleList, .commodityList {
+  .recycleList, .commodityList, .momentList {
     width: 75vw;
     background: white;
     display: flex;

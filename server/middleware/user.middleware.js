@@ -20,7 +20,10 @@ const verifyUser = async (ctx, next) => {
       status: 409,
       message: '用户名已经存在~ 请使用别的用户名'
     }
-    return ctx.app.emit('error', error, ctx)
+    return {
+      status: 409,
+      message: '用户名已经存在~ 请使用别的用户名'
+    }
   }
   await next()
 }

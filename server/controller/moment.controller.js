@@ -40,6 +40,13 @@ class MomentController {
     ctx.body = result
   }
 
+  async getKeywordMoment(ctx, next) {
+    const  {keyword} = ctx.params;
+    const keywordMoment = await momentService.searchKeywordMoment(keyword)
+    ctx.body = keywordMoment
+  }
+
+
   async update(ctx, next) {
     // 1. 获取参数
     const { momentId } = ctx.params

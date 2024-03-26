@@ -26,6 +26,12 @@ class momentService {
     return result
   }
 
+  async searchKeywordMoment(keyword='') {
+    const statement = `SELECT * FROM moment WHERE LOWER(content) LIKE '%${keyword.toLowerCase().trim()}%' OR LOWER(title) LIKE '%${keyword.toLowerCase().trim()}%';`
+    const [result] = await connection.execute(statement)
+
+    return result
+  }
 
   async getFileByFilename(filename) {
     const statement = `SELECT * FROM moment WHERE filename = ?;`

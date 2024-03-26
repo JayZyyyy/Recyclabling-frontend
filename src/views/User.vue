@@ -10,11 +10,23 @@
             </div>
             <div class="tab-text">首页</div>
           </div>
+          <div class="tab" @click="toMyInfo">
+            <div class="tab-icon">
+              <el-icon :size="28"><User /></el-icon>
+            </div>
+            <div class="tab-text">我的信息</div>
+          </div>
           <div class="tab" @click="toRecycleList" v-if="userStore.isAdmin">
             <div class="tab-icon">
               <el-icon :size="28"><Files /></el-icon>
             </div>
             <div class="tab-text">可回收废物列表</div>
+          </div>
+          <div class="tab" @click="toUserList" v-if="userStore.isAdmin">
+            <div class="tab-icon">
+              <el-icon :size="28"><Notification /></el-icon>
+            </div>
+            <div class="tab-text">用户列表</div>
           </div>
           <div class="tab" @click="toMyCommodity">
             <div class="tab-icon">
@@ -71,7 +83,9 @@ import {
   ShoppingCart,
   SoldOut,
   Reading,
-  Sell
+  Sell,
+  User,
+  Notification
 } from "@element-plus/icons-vue";
 import { useRouter, useRoute } from "vue-router";
 
@@ -85,6 +99,11 @@ const toHome = () => {
 
 const toHomePage = () => {
   router.push("/home");
+};
+
+
+const toMyInfo = () => {
+  router.push(`/user/${route.params.id}/info`);
 };
 
 const toRecycleList = () => {
@@ -109,6 +128,10 @@ const toMyBuy = () => {
 
 const toMyMoment = () => {
   router.push(`/user/${route.params.id}/moment`);
+}
+
+const toUserList = () => {
+  router.push(`/user/${route.params.id}/userList`)
 }
 
 

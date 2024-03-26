@@ -54,6 +54,14 @@ const routes = [
         component: UserHome,
       },
       {
+        path: 'info',
+        component: () => import('../views/UserChild/Info.vue'),
+      },
+      {
+        path: 'userList',
+        component: () => import('../views/UserChild/UserList.vue'),
+      },
+      {
         path: 'recycleList',
         component: () => import('../views/UserChild/RecycleList.vue')
       },

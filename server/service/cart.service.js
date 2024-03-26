@@ -13,8 +13,8 @@ class CartService {
 
   async getCartList(userId, status) {
     const statement = `SELECT * FROM cart JOIN commodity ON cart.commodityId = commodity.id WHERE userId = ${userId} AND status = ${status};`
-    const [result] = await connection.execute(statement)
-    return result
+    const result = await connection.execute(statement)
+    return result[0]
   }
 
   
